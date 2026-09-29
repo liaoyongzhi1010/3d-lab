@@ -6,10 +6,19 @@
 
 ```
 3d-lab/
-├── 3d-reconstruction/          # 三维重建（主线研究）
 ├── 3d-reconstruction-survey/   # 三维重建综述
+├── 3d-reconstruction/          # 三维重建（主线研究）
 ├── 3d-reconstruction-security/ # 三维重建安全
 ```
+
+### `3d-reconstruction-survey/` — 三维重建综述
+
+三维重建领域的文献调研与综述材料，涵盖：
+- 单视图/多视图三维重建方法梳理
+- 3D Gaussian Splatting 相关工作
+- 生成式三维重建（扩散模型、视频生成、多视图生成）
+- 前馈 vs 生成式方法对比分析
+- 竞品方法详细对比（Flash3D、CATSplat、pixelSplat、MVSplat、DepthSplat 等）
 
 ### `3d-reconstruction/` — 三维重建
 
@@ -24,33 +33,9 @@
 评估数据集：RealEstate10K（158 场景）+ ACID（40 场景）
 主要指标：FID（分布真实感）、LPIPS、PSNR、幻觉检测 AUROC
 
-### `3d-reconstruction-survey/` — 三维重建综述
-
-三维重建领域的文献调研与综述材料，涵盖：
-- 单视图/多视图三维重建方法梳理
-- 3D Gaussian Splatting 相关工作
-- 生成式三维重建（扩散模型、视频生成、多视图生成）
-- 前馈 vs 生成式方法对比分析
-- 竞品方法详细对比（Flash3D、CATSplat、pixelSplat、MVSplat、DepthSplat 等）
-
 ### `3d-reconstruction-security/` — 三维重建安全
 
 3D Gaussian Splatting 的对抗攻击与安全研究，涵盖：
 - 3DGS 渲染管线的对抗脆弱性分析
 - 针对 3DGS 的攻击方法
 - 防御与鲁棒性评估
-
-## 技术栈
-
-- **三维表示**：3D Gaussian Splatting (3DGS)
-- **前馈重建**：Flash3D, CATSplat
-- **生成先验**：Difix, ViewCrafter, FlashWorld, Gen3R
-- **评估**：RealEstate10K (MINE protocol), ACID
-- **硬件**：单卡 A6000 48GB
-
-## 相关论文
-
-- Flash3D: Feed-Forward Generalisable 3D Scene Reconstruction from a Single Image (3DV 2025)
-- CATSplat: Context-Aware Transformer with Spatial Guidance for Generalizable 3D Gaussian Splatting from a Single-View Image (ICCV 2025)
-- OracleGS: Grounding Generative Priors in 3D Gaussian Splatting (arXiv 2025)
-- Difix3D+: Improving 3D Reconstructions with Single-Step Diffusion Models (CVPR 2025)
