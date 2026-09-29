@@ -6,19 +6,10 @@
 
 ```
 3d-lab/
-├── 3d-reconstruction-survey/   # 三维重建综述
 ├── 3d-reconstruction/          # 三维重建（主线研究）
+├── 3d-reconstruction-survey/   # 三维重建综述
 ├── 3d-reconstruction-security/ # 三维重建安全
 ```
-
-### `3d-reconstruction-survey/` — 三维重建综述
-
-三维重建领域的文献调研与综述材料，涵盖：
-- 单视图/多视图三维重建方法梳理
-- 3D Gaussian Splatting 相关工作
-- 生成式三维重建（扩散模型、视频生成、多视图生成）
-- 前馈 vs 生成式方法对比分析
-- 竞品方法详细对比（Flash3D、CATSplat、pixelSplat、MVSplat、DepthSplat 等）
 
 ### `3d-reconstruction/` — 三维重建
 
@@ -32,6 +23,15 @@
 
 评估数据集：RealEstate10K（158 场景）+ ACID（40 场景）
 主要指标：FID（分布真实感）、LPIPS、PSNR、幻觉检测 AUROC
+
+### `3d-reconstruction-survey/` — 三维重建综述
+
+三维重建领域的文献调研与综述材料，涵盖：
+- 单视图/多视图三维重建方法梳理
+- 3D Gaussian Splatting 相关工作
+- 生成式三维重建（扩散模型、视频生成、多视图生成）
+- 前馈 vs 生成式方法对比分析
+- 竞品方法详细对比（Flash3D、CATSplat、pixelSplat、MVSplat、DepthSplat 等）
 
 ### `3d-reconstruction-security/` — 三维重建安全
 
