@@ -1,0 +1,8 @@
+{
+  "n_scenes": 20,
+  "detector_auc": 0.555,
+  "clean_score_mean": 0.04839442962195335,
+  "attacked_score_mean": 0.05004752025943162,
+  "epsilon": 0.03137254901960784,
+  "lambda_src": 3.0
+}

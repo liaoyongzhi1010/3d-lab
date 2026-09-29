@@ -1,0 +1,33 @@
+# @package _global_
+# Paper A: appearance-aware spatial-guidance single-image 3DGS (VLM-free).
+# Identical to layered_re10k except model.name -> unidepth_spatial (activates the
+# appearance-aware spatial branch) + spatial branch hyperparameters.
+config:
+  exp_name: spatial
+
+defaults:
+  - override /dataset: re10k
+  - override /model: gaussian
+  - override /loss: [regularization, reconstruction]
+
+optimiser:
+  scheduler_lambda_step_size: 500000
+
+train:
+  scale_pose_by_depth: true
+  use_gt_poses: true
+
+model:
+  name: unidepth_spatial
+  gauss_novel_frames: [-1, 1, 2]
+  renderer_w_pose: true
+  scale_with_depth: false
+  opacity_scale: 1.0
+  depth_scale: 0.1
+  xyz_scale: 0.2
+  max_depth: 20
+  depth_cond: true
+  # spatial branch hyperparameters
+  spatial_d_model: 256
+  spatial_num_points: 4096
+  spatial_num_tokens: 32

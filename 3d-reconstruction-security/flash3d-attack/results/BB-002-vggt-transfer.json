@@ -1,0 +1,535 @@
+{
+  "n_scenes": 30,
+  "epsilon": 0.015686,
+  "steps": 40,
+  "lambda_src": 3.0,
+  "surrogate": "Flash3D",
+  "target": "VGGT-1B",
+  "attack_method": "DPC (rendering divergence)",
+  "mean_depth_mae": 0.05567781465748946,
+  "std_depth_mae": 0.037883682746808096,
+  "mean_depth_rel_mae": 0.06798885660246015,
+  "std_depth_rel_mae": 0.042154160104019615,
+  "mean_pointmap_displacement": 0.08635214768971006,
+  "std_pointmap_displacement": 0.04521564265762049,
+  "mean_depth_rank_reversal": 0.06683408344785373,
+  "std_depth_rank_reversal": 0.043075230197081656,
+  "mean_src_psnr": 37.90803337097168,
+  "std_src_psnr": 0.18719773664047903,
+  "random_mean_pointmap_displacement": 0.0726424370581905,
+  "random_mean_depth_rank_reversal": 0.061529299865166344,
+  "transfer_ratio_displacement": 1.1887286697397623,
+  "transfer_ratio_reversal": 1.0862155669850069,
+  "per_scene": [
+    {
+      "depth_mae": 0.015847783535718918,
+      "depth_rel_mae": 0.01682962477207184,
+      "pointmap_displacement": 0.02027858980000019,
+      "depth_rank_reversal": 0.11341716349124908,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.11450958251953,
+      "linf": 0.015686005353927612,
+      "scene_idx": 0,
+      "random_baseline": {
+        "depth_mae": 0.020730065181851387,
+        "depth_rel_mae": 0.022045591846108437,
+        "pointmap_displacement": 0.03211211785674095,
+        "depth_rank_reversal": 0.15449437499046326,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.015217515639960766,
+      "depth_rel_mae": 0.016322767361998558,
+      "pointmap_displacement": 0.016940275207161903,
+      "depth_rank_reversal": 0.13711844384670258,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.17657232284546,
+      "linf": 0.015686005353927612,
+      "scene_idx": 1,
+      "random_baseline": {
+        "depth_mae": 0.012092391960322857,
+        "depth_rel_mae": 0.013001012615859509,
+        "pointmap_displacement": 0.011936218477785587,
+        "depth_rank_reversal": 0.12818947434425354,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.0111757917329669,
+      "depth_rel_mae": 0.011681020259857178,
+      "pointmap_displacement": 0.00916761253029108,
+      "depth_rank_reversal": 0.145751953125,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.17434549331665,
+      "linf": 0.015686005353927612,
+      "scene_idx": 2,
+      "random_baseline": {
+        "depth_mae": 0.014121543616056442,
+        "depth_rel_mae": 0.014848852530121803,
+        "pointmap_displacement": 0.021555136889219284,
+        "depth_rank_reversal": 0.14702649414539337,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.012470954097807407,
+      "depth_rel_mae": 0.013184725306928158,
+      "pointmap_displacement": 0.013376761227846146,
+      "depth_rank_reversal": 0.11939933896064758,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.19369077682495,
+      "linf": 0.015686005353927612,
+      "scene_idx": 3,
+      "random_baseline": {
+        "depth_mae": 0.009283329360187054,
+        "depth_rel_mae": 0.009800021536648273,
+        "pointmap_displacement": 0.007763815112411976,
+        "depth_rank_reversal": 0.11318682134151459,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.012638204731047153,
+      "depth_rel_mae": 0.013430094346404076,
+      "pointmap_displacement": 0.02021094597876072,
+      "depth_rank_reversal": 0.1627793312072754,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.171935081481934,
+      "linf": 0.015686005353927612,
+      "scene_idx": 4,
+      "random_baseline": {
+        "depth_mae": 0.01130591332912445,
+        "depth_rel_mae": 0.011996950954198837,
+        "pointmap_displacement": 0.015059182420372963,
+        "depth_rank_reversal": 0.14566545188426971,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.1626419872045517,
+      "depth_rel_mae": 0.17166058719158173,
+      "pointmap_displacement": 0.1856641322374344,
+      "depth_rank_reversal": 0.045554470270872116,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.96733617782593,
+      "linf": 0.015686005353927612,
+      "scene_idx": 5,
+      "random_baseline": {
+        "depth_mae": 0.10764842480421066,
+        "depth_rel_mae": 0.11626756191253662,
+        "pointmap_displacement": 0.1333252489566803,
+        "depth_rank_reversal": 0.030406642705202103,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.10070931911468506,
+      "depth_rel_mae": 0.09441102296113968,
+      "pointmap_displacement": 0.11551661044359207,
+      "depth_rank_reversal": 0.037728939205408096,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.74148941040039,
+      "linf": 0.015686005353927612,
+      "scene_idx": 6,
+      "random_baseline": {
+        "depth_mae": 0.06647530198097229,
+        "depth_rel_mae": 0.07332641631364822,
+        "pointmap_displacement": 0.07248394936323166,
+        "depth_rank_reversal": 0.03259675204753876,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.03762190416455269,
+      "depth_rel_mae": 0.052881769835948944,
+      "pointmap_displacement": 0.0905299037694931,
+      "depth_rank_reversal": 0.050909534096717834,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.68106698989868,
+      "linf": 0.015686005353927612,
+      "scene_idx": 7,
+      "random_baseline": {
+        "depth_mae": 0.03371407464146614,
+        "depth_rel_mae": 0.048106640577316284,
+        "pointmap_displacement": 0.080532006919384,
+        "depth_rank_reversal": 0.04728161171078682,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.04873688519001007,
+      "depth_rel_mae": 0.07795175164937973,
+      "pointmap_displacement": 0.10131584852933884,
+      "depth_rank_reversal": 0.06985832750797272,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.70550727844238,
+      "linf": 0.015686005353927612,
+      "scene_idx": 8,
+      "random_baseline": {
+        "depth_mae": 0.04864536225795746,
+        "depth_rel_mae": 0.07728295773267746,
+        "pointmap_displacement": 0.10333126038312912,
+        "depth_rank_reversal": 0.0595775842666626,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.062389206141233444,
+      "depth_rel_mae": 0.08431842923164368,
+      "pointmap_displacement": 0.1034725084900856,
+      "depth_rank_reversal": 0.0892442911863327,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.8263783454895,
+      "linf": 0.015686005353927612,
+      "scene_idx": 9,
+      "random_baseline": {
+        "depth_mae": 0.058078985661268234,
+        "depth_rel_mae": 0.0774429440498352,
+        "pointmap_displacement": 0.09973274916410446,
+        "depth_rank_reversal": 0.08145072311162949,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.05388863757252693,
+      "depth_rel_mae": 0.06818878650665283,
+      "pointmap_displacement": 0.12884607911109924,
+      "depth_rank_reversal": 0.03993161395192146,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.031179904937744,
+      "linf": 0.015686005353927612,
+      "scene_idx": 10,
+      "random_baseline": {
+        "depth_mae": 0.05599068105220795,
+        "depth_rel_mae": 0.07295941561460495,
+        "pointmap_displacement": 0.12191464006900787,
+        "depth_rank_reversal": 0.03700537234544754,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.04952550679445267,
+      "depth_rel_mae": 0.06715550273656845,
+      "pointmap_displacement": 0.12558183073997498,
+      "depth_rank_reversal": 0.025763127952814102,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.06629419326782,
+      "linf": 0.015686005353927612,
+      "scene_idx": 11,
+      "random_baseline": {
+        "depth_mae": 0.0477750264108181,
+        "depth_rel_mae": 0.06529650837182999,
+        "pointmap_displacement": 0.11262903362512589,
+        "depth_rank_reversal": 0.021250611171126366,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.04909129813313484,
+      "depth_rel_mae": 0.06686016172170639,
+      "pointmap_displacement": 0.1245427206158638,
+      "depth_rank_reversal": 0.03797313943505287,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.096861839294434,
+      "linf": 0.015686005353927612,
+      "scene_idx": 12,
+      "random_baseline": {
+        "depth_mae": 0.05012565851211548,
+        "depth_rel_mae": 0.06784532964229584,
+        "pointmap_displacement": 0.11109215766191483,
+        "depth_rank_reversal": 0.035653237253427505,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.07276883721351624,
+      "depth_rel_mae": 0.09334778040647507,
+      "pointmap_displacement": 0.13134044408798218,
+      "depth_rank_reversal": 0.03626816347241402,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.95196533203125,
+      "linf": 0.015686005353927612,
+      "scene_idx": 13,
+      "random_baseline": {
+        "depth_mae": 0.061128005385398865,
+        "depth_rel_mae": 0.07855043560266495,
+        "pointmap_displacement": 0.1172865703701973,
+        "depth_rank_reversal": 0.032364435493946075,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.040546514093875885,
+      "depth_rel_mae": 0.05395335704088211,
+      "pointmap_displacement": 0.12280086427927017,
+      "depth_rank_reversal": 0.0355224609375,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.1929087638855,
+      "linf": 0.015686005353927612,
+      "scene_idx": 14,
+      "random_baseline": {
+        "depth_mae": 0.04183972626924515,
+        "depth_rel_mae": 0.05580746755003929,
+        "pointmap_displacement": 0.11208747327327728,
+        "depth_rank_reversal": 0.030399218201637268,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.028830157592892647,
+      "depth_rel_mae": 0.03450098633766174,
+      "pointmap_displacement": 0.04761128127574921,
+      "depth_rank_reversal": 0.039697080850601196,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.88322925567627,
+      "linf": 0.015686005353927612,
+      "scene_idx": 15,
+      "random_baseline": {
+        "depth_mae": 0.03139278665184975,
+        "depth_rel_mae": 0.037735406309366226,
+        "pointmap_displacement": 0.05333372950553894,
+        "depth_rank_reversal": 0.03065461665391922,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.029695140197873116,
+      "depth_rel_mae": 0.03190280497074127,
+      "pointmap_displacement": 0.03681496903300285,
+      "depth_rank_reversal": 0.024664226919412613,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.805376052856445,
+      "linf": 0.015686005353927612,
+      "scene_idx": 16,
+      "random_baseline": {
+        "depth_mae": 0.020555322989821434,
+        "depth_rel_mae": 0.02214273251593113,
+        "pointmap_displacement": 0.03071160428225994,
+        "depth_rank_reversal": 0.019183773547410965,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.022326426580548286,
+      "depth_rel_mae": 0.027873538434505463,
+      "pointmap_displacement": 0.03088228963315487,
+      "depth_rank_reversal": 0.025149554014205933,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.901926040649414,
+      "linf": 0.015686005353927612,
+      "scene_idx": 17,
+      "random_baseline": {
+        "depth_mae": 0.027463223785161972,
+        "depth_rel_mae": 0.03435251861810684,
+        "pointmap_displacement": 0.0400102324783802,
+        "depth_rank_reversal": 0.022097423672676086,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.1031004935503006,
+      "depth_rel_mae": 0.1426498293876648,
+      "pointmap_displacement": 0.12196704000234604,
+      "depth_rank_reversal": 0.0565323606133461,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.911438941955566,
+      "linf": 0.015686005353927612,
+      "scene_idx": 18,
+      "random_baseline": {
+        "depth_mae": 0.017308924347162247,
+        "depth_rel_mae": 0.02525334432721138,
+        "pointmap_displacement": 0.03497687354683876,
+        "depth_rank_reversal": 0.020512821152806282,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.030979584902524948,
+      "depth_rel_mae": 0.03773125633597374,
+      "pointmap_displacement": 0.04356861487030983,
+      "depth_rank_reversal": 0.03528262674808502,
+      "n_valid_pixels": 137984,
+      "src_psnr": 38.00201892852783,
+      "linf": 0.015686005353927612,
+      "scene_idx": 19,
+      "random_baseline": {
+        "depth_mae": 0.03248440474271774,
+        "depth_rel_mae": 0.036840733140707016,
+        "pointmap_displacement": 0.04749930649995804,
+        "depth_rank_reversal": 0.04080137237906456,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.13097064197063446,
+      "depth_rel_mae": 0.14349909126758575,
+      "pointmap_displacement": 0.14316140115261078,
+      "depth_rank_reversal": 0.1630859375,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.68532752990723,
+      "linf": 0.015686005353927612,
+      "scene_idx": 20,
+      "random_baseline": {
+        "depth_mae": 0.09128367155790329,
+        "depth_rel_mae": 0.10066977143287659,
+        "pointmap_displacement": 0.09961511939764023,
+        "depth_rank_reversal": 0.1404837667942047,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.0838109701871872,
+      "depth_rel_mae": 0.09353774785995483,
+      "pointmap_displacement": 0.09515383839607239,
+      "depth_rank_reversal": 0.09708145260810852,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.59903430938721,
+      "linf": 0.015686005353927612,
+      "scene_idx": 21,
+      "random_baseline": {
+        "depth_mae": 0.05187242105603218,
+        "depth_rel_mae": 0.05919009819626808,
+        "pointmap_displacement": 0.057013146579265594,
+        "depth_rank_reversal": 0.08228543400764465,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.07753536105155945,
+      "depth_rel_mae": 0.08568446338176727,
+      "pointmap_displacement": 0.09060010313987732,
+      "depth_rank_reversal": 0.09611626714468002,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.73372411727905,
+      "linf": 0.015686005353927612,
+      "scene_idx": 22,
+      "random_baseline": {
+        "depth_mae": 0.0457707904279232,
+        "depth_rel_mae": 0.05088727921247482,
+        "pointmap_displacement": 0.059844743460416794,
+        "depth_rank_reversal": 0.08900012075901031,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.11938425898551941,
+      "depth_rel_mae": 0.12896229326725006,
+      "pointmap_displacement": 0.1361769586801529,
+      "depth_rank_reversal": 0.08888889104127884,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.560386657714844,
+      "linf": 0.015686005353927612,
+      "scene_idx": 23,
+      "random_baseline": {
+        "depth_mae": 0.09869874268770218,
+        "depth_rel_mae": 0.10661415010690689,
+        "pointmap_displacement": 0.10975700616836548,
+        "depth_rank_reversal": 0.08550140261650085,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.047349713742733,
+      "depth_rel_mae": 0.05292253941297531,
+      "pointmap_displacement": 0.07323508709669113,
+      "depth_rank_reversal": 0.07293830066919327,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.61462926864624,
+      "linf": 0.015686005353927612,
+      "scene_idx": 24,
+      "random_baseline": {
+        "depth_mae": 0.023953355848789215,
+        "depth_rel_mae": 0.027217727154493332,
+        "pointmap_displacement": 0.04150257632136345,
+        "depth_rank_reversal": 0.050317537039518356,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.0375196672976017,
+      "depth_rel_mae": 0.05550357699394226,
+      "pointmap_displacement": 0.07042244076728821,
+      "depth_rank_reversal": 0.03235653415322304,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.84116983413696,
+      "linf": 0.015686005353927612,
+      "scene_idx": 25,
+      "random_baseline": {
+        "depth_mae": 0.041950128972530365,
+        "depth_rel_mae": 0.06477518379688263,
+        "pointmap_displacement": 0.07332576811313629,
+        "depth_rank_reversal": 0.04127487912774086,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.0892261266708374,
+      "depth_rel_mae": 0.11665744334459305,
+      "pointmap_displacement": 0.09818091243505478,
+      "depth_rank_reversal": 0.03297508507966995,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.838590145111084,
+      "linf": 0.015686005353927612,
+      "scene_idx": 26,
+      "random_baseline": {
+        "depth_mae": 0.08806917816400528,
+        "depth_rel_mae": 0.12056879699230194,
+        "pointmap_displacement": 0.097325399518013,
+        "depth_rank_reversal": 0.0328369140625,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.06883592158555984,
+      "depth_rel_mae": 0.10023500770330429,
+      "pointmap_displacement": 0.08758290857076645,
+      "depth_rank_reversal": 0.0262451171875,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.95858383178711,
+      "linf": 0.015686005353927612,
+      "scene_idx": 27,
+      "random_baseline": {
+        "depth_mae": 0.08291126787662506,
+        "depth_rel_mae": 0.12259933352470398,
+        "pointmap_displacement": 0.09781735390424728,
+        "depth_rank_reversal": 0.033825863152742386,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.024864818900823593,
+      "depth_rel_mae": 0.03886941820383072,
+      "pointmap_displacement": 0.09812436252832413,
+      "depth_rank_reversal": 0.03418803587555885,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.833685874938965,
+      "linf": 0.015686005353927612,
+      "scene_idx": 28,
+      "random_baseline": {
+        "depth_mae": 0.029407264664769173,
+        "depth_rel_mae": 0.04444603621959686,
+        "pointmap_displacement": 0.08623328059911728,
+        "depth_rank_reversal": 0.02820168435573578,
+        "n_valid_pixels": 137984
+      }
+    },
+    {
+      "depth_mae": 0.030634811148047447,
+      "depth_rel_mae": 0.0469583198428154,
+      "pointmap_displacement": 0.10749709606170654,
+      "depth_rank_reversal": 0.03260073438286781,
+      "n_valid_pixels": 137984,
+      "src_psnr": 37.979838848114014,
+      "linf": 0.015686005353927612,
+      "scene_idx": 29,
+      "random_baseline": {
+        "depth_mae": 0.0502704419195652,
+        "depth_rel_mae": 0.07328052073717117,
+        "pointmap_displacement": 0.0974654108285904,
+        "depth_rank_reversal": 0.03235258162021637,
+        "n_valid_pixels": 137984
+      }
+    }
+  ]
+}

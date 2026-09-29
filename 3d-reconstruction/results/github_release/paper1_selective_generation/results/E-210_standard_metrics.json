@@ -1,0 +1,28 @@
+{
+  "n_frames": 759,
+  "scenes": 21,
+  "lpips_backbone": "vgg",
+  "metric_note": "standard full-image metrics; no region split",
+  "ours_semantics": "adaptive2 injected output evaluated directly on every included frame; no oracle fallback",
+  "gen3r": {
+    "psnr": 17.768096923828125,
+    "ssim": 0.6527746319770813,
+    "lpips": 0.3596668174105042,
+    "fid": 31.77411460876465,
+    "kid": 0.0019836686551570892
+  },
+  "flash3d": {
+    "psnr": 19.760961532592773,
+    "ssim": 0.678522527217865,
+    "lpips": 0.4439256691100255,
+    "fid": 54.84054183959961,
+    "kid": 0.009561462327837944
+  },
+  "ours": {
+    "psnr": 19.223819732666016,
+    "ssim": 0.6757711172103882,
+    "lpips": 0.34142624096986646,
+    "fid": 31.142837524414062,
+    "kid": 0.002816197695210576
+  }
+}

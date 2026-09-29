@@ -1,0 +1,54 @@
+{
+  "clean_src": {
+    "ssim": 0.978479517698288,
+    "psnr": 36.465951156616214,
+    "lpips": 0.030737966392189266
+  },
+  "clean_tgt5": {
+    "ssim": 0.8486872732639312,
+    "psnr": 27.622514266967773,
+    "lpips": 0.11811081282794475
+  },
+  "clean_tgt10": {
+    "ssim": 0.7996013188362121,
+    "psnr": 25.113508224487305,
+    "lpips": 0.16705281361937524
+  },
+  "clean_tgt_rand": {
+    "ssim": 0.798045642375946,
+    "psnr": 25.603998641967774,
+    "lpips": 0.17480477787554263
+  },
+  "attacked_src": {
+    "ssim": 0.9687838685512543,
+    "psnr": 34.95046482086182,
+    "lpips": 0.081658592261374
+  },
+  "attacked_tgt5": {
+    "ssim": 0.8051098161935806,
+    "psnr": 24.978056602478027,
+    "lpips": 0.17156172633171082
+  },
+  "attacked_tgt10": {
+    "ssim": 0.741173449754715,
+    "psnr": 21.97309289932251,
+    "lpips": 0.22765719950199126
+  },
+  "attacked_tgt_rand": {
+    "ssim": 0.7433538377285004,
+    "psnr": 22.75557008743286,
+    "lpips": 0.2305349113047123
+  },
+  "n_scenes": 50,
+  "dpc_cfg": {
+    "split": "splits/re10k_mine_filtered/test_files_present.txt",
+    "out": "/root/flash3d-attack/results/abl_eps4_n50.json",
+    "max_scenes": 50,
+    "method": "dpc",
+    "epsilon": 0.0157,
+    "steps": 40,
+    "step_size": 0.00392156862745098,
+    "lambda_src": 3.0,
+    "n_aux_poses": 4
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "protocol": "grouped 5-fold CV, MLP, ROC-AUC pooled OOF",
+  "label": "teacher_inv-base_inv>0.1dB",
+  "n_frames": 2898,
+  "results": [
+    {
+      "name": "1_camera_only(floor,MLP)",
+      "n_feats": 2,
+      "roc_auc": 0.6364188048318814,
+      "accuracy": 0.5921325051759835
+    },
+    {
+      "name": "2_vggt_only(deployable,MLP)",
+      "n_feats": 7,
+      "roc_auc": 0.45137004690459104,
+      "accuracy": 0.45652173913043476
+    },
+    {
+      "name": "3_camera+vggt(deployable,MLP,KEY)",
+      "n_feats": 9,
+      "roc_auc": 0.5836741560089789,
+      "accuracy": 0.5037957211870255
+    },
+    {
+      "name": "4_gt_probe(ceiling,MLP)",
+      "n_feats": 4,
+      "roc_auc": 0.9782935520768211,
+      "accuracy": 0.9178743961352657
+    },
+    {
+      "name": "5_all(MLP)",
+      "n_feats": 13,
+      "roc_auc": 0.9217164255722808,
+      "accuracy": 0.8271221532091098
+    }
+  ]
+}

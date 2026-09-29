@@ -1,0 +1,9 @@
+# 评测产物中的大文件/图片不入库，只留 JSON 和 Markdown 表
+results/**/*.png
+results/**/*.ply
+results/_genq_tmp/
+*.pth
+*.tar
+__pycache__/
+*.pyc
+.DS_Store

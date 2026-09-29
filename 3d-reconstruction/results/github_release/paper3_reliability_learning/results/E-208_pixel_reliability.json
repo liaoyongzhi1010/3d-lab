@@ -1,0 +1,22 @@
+{
+  "n_patches": 13831,
+  "scenes": 21,
+  "positive": 9829,
+  "grid": 8,
+  "vis_thr": 0.9,
+  "acc": 0.7338587231581231,
+  "roc_auc": 0.7243789591621932,
+  "pr_auc": 0.8434848904395209,
+  "gain_always": 3.0482067801108834,
+  "gain_patchnet@0.5": 3.2016628879290034,
+  "gain_oracle": 4.149058671721193,
+  "feats": [
+    "f3d_base_l1",
+    "f3d_base_l1_std",
+    "base_grad",
+    "disocc_frac",
+    "cx",
+    "cy",
+    "f3d_energy"
+  ]
+}

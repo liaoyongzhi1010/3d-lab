@@ -1,0 +1,98 @@
+{
+  "protocol": "grouped leave-one-scene-out logistic, ROC-AUC",
+  "label": "teacher_inv - base_inv > 0.1 dB",
+  "n_frames": 2898,
+  "n_scenes": 74,
+  "results": [
+    {
+      "name": "1_camera_only(floor)",
+      "n_feats": 2,
+      "roc_auc": 0.6495999059112509,
+      "accuracy": 0.6118012422360248,
+      "feats": [
+        "cam_trans",
+        "cam_rot_deg"
+      ]
+    },
+    {
+      "name": "2_vggt_only(deployable)",
+      "n_feats": 12,
+      "roc_auc": 0.49997662241635527,
+      "accuracy": 0.5407177363699103,
+      "feats": [
+        "conf_mean",
+        "conf_std",
+        "conf_p10",
+        "conf_p50",
+        "conf_p90",
+        "lowconf_frac",
+        "pt_conf_mean",
+        "pt_conf_std",
+        "pt_conf_p10",
+        "pt_conf_p50",
+        "pt_conf_p90",
+        "pt_lowconf_frac"
+      ]
+    },
+    {
+      "name": "3_camera+vggt(deployable,KEY)",
+      "n_feats": 14,
+      "roc_auc": 0.6100459984083962,
+      "accuracy": 0.6207729468599034,
+      "feats": [
+        "cam_trans",
+        "cam_rot_deg",
+        "conf_mean",
+        "conf_std",
+        "conf_p10",
+        "conf_p50",
+        "conf_p90",
+        "lowconf_frac",
+        "pt_conf_mean",
+        "pt_conf_std",
+        "pt_conf_p10",
+        "pt_conf_p50",
+        "pt_conf_p90",
+        "pt_lowconf_frac"
+      ]
+    },
+    {
+      "name": "4_gt_quality_probe(ceiling)",
+      "n_feats": 4,
+      "roc_auc": 0.9491472484102038,
+      "accuracy": 0.8668046928916494,
+      "feats": [
+        "f3d_vis",
+        "f3d_inv",
+        "vis_frac",
+        "vis_gap"
+      ]
+    },
+    {
+      "name": "5_all(ceiling+deployable)",
+      "n_feats": 18,
+      "roc_auc": 0.9116664746652064,
+      "accuracy": 0.805728088336784,
+      "feats": [
+        "f3d_vis",
+        "f3d_inv",
+        "vis_frac",
+        "vis_gap",
+        "conf_mean",
+        "conf_std",
+        "conf_p10",
+        "conf_p50",
+        "conf_p90",
+        "lowconf_frac",
+        "pt_conf_mean",
+        "pt_conf_std",
+        "pt_conf_p10",
+        "pt_conf_p50",
+        "pt_conf_p90",
+        "pt_lowconf_frac",
+        "cam_trans",
+        "cam_rot_deg"
+      ]
+    }
+  ]
+}

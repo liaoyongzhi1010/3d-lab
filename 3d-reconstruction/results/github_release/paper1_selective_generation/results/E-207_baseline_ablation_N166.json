@@ -1,0 +1,113 @@
+{
+  "N": 166,
+  "invisible_psnr": {
+    "Gen3R-alone (single-view baseline)": {
+      "mean": 13.781242527114744,
+      "ci95": [
+        12.994282141448256,
+        14.602040215958345
+      ]
+    },
+    "Flash3D evidence (injection-source ref.)": {
+      "mean": 19.03734884024061,
+      "ci95": [
+        18.302314464300665,
+        19.791360151048558
+      ]
+    },
+    "Always-inject (naive fusion)": {
+      "mean": 14.53422571724805,
+      "ci95": [
+        13.80868502974843,
+        15.268698277982672
+      ]
+    },
+    "Target-GT visible proxy (oracle diagnostic)": {
+      "mean": 14.652737028427326,
+      "ci95": [
+        13.897898496647729,
+        15.422552256482804
+      ]
+    },
+    "Quality-gap oracle (gap>5; selects Ours)": {
+      "mean": 15.439709737033967,
+      "ci95": [
+        14.678619863194541,
+        16.21691200800104
+      ]
+    },
+    "Benefit oracle (upper bound)": {
+      "mean": 15.48507687493431,
+      "ci95": [
+        14.727046158801771,
+        16.25941653639082
+      ]
+    }
+  },
+  "visible_psnr": {
+    "Gen3R-alone (direct measurement)": {
+      "mean": 14.482438220853258,
+      "ci95": [
+        13.998928044745929,
+        14.977564593073296
+      ]
+    },
+    "Selected output (assigned baseline by construction; not measured)": {
+      "mean": 14.482438220853258,
+      "ci95": [
+        13.998928044745929,
+        14.977564593073296
+      ]
+    }
+  },
+  "visible_metric_semantics": "Selected-output values are assigned from Gen3R by the latent-mask construction assumption, not independently measured after decoding. The direct 16-scene run measured +0.016 dB visible change.",
+  "deltas_vs_gen3r": {
+    "Gen3R-alone (single-view baseline)": {
+      "mean": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "Flash3D evidence (injection-source ref.)": {
+      "mean": 5.256106313125868,
+      "ci95": [
+        4.660797991602176,
+        5.833670817030827
+      ]
+    },
+    "Always-inject (naive fusion)": {
+      "mean": 0.7529831901333085,
+      "ci95": [
+        0.21277724188849237,
+        1.2797332712849643
+      ]
+    },
+    "Target-GT visible proxy (oracle diagnostic)": {
+      "mean": 0.8714945013125849,
+      "ci95": [
+        0.37659528753554444,
+        1.3663564169847087
+      ]
+    },
+    "Quality-gap oracle (gap>5; selects Ours)": {
+      "mean": 1.6584672099192257,
+      "ci95": [
+        1.321295023365448,
+        2.020642412640272
+      ]
+    },
+    "Benefit oracle (upper bound)": {
+      "mean": 1.7038343478195677,
+      "ci95": [
+        1.3718703703350166,
+        2.064805026769396
+      ]
+    }
+  },
+  "quality_gap_oracle_vs_gen3r_counts": {
+    "win": 85,
+    "tie": 79,
+    "loss": 2
+  }
+}

@@ -1,0 +1,40 @@
+# @package _global_
+# Paper A FINETUNE (FROZEN backbone): load official Flash3D weights, FREEZE the whole
+# Flash3D backbone (encoder + depth/gauss decoders), train ONLY the appearance-aware
+# spatial branch. Cleanest isolation: any change vs the frozen Flash3D baseline is
+# attributable purely to the branch (no backbone drift). LPIPS on from step 0.
+config:
+  exp_name: spatial_ft_frozen
+
+defaults:
+  - override /dataset: re10k
+  - override /model: gaussian
+  - override /loss: [regularization, reconstruction]
+
+optimiser:
+  learning_rate: 1e-4           # branch-only, can use the normal LR (backbone frozen)
+  scheduler_lambda_step_size: 500000
+
+train:
+  scale_pose_by_depth: true
+  use_gt_poses: true
+  load_weights_folder: /home/data/sv3d-lab/checkpoints/flash3d_official
+
+loss:
+  lpips:
+    apply_after_step: 0
+
+model:
+  name: unidepth_spatial
+  freeze_backbone: true
+  gauss_novel_frames: [-1, 1, 2]
+  renderer_w_pose: true
+  scale_with_depth: false
+  opacity_scale: 1.0
+  depth_scale: 0.1
+  xyz_scale: 0.2
+  max_depth: 20
+  depth_cond: true
+  spatial_d_model: 256
+  spatial_num_points: 4096
+  spatial_num_tokens: 32

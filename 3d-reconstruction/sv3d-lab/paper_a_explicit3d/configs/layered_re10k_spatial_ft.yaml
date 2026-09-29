@@ -1,0 +1,39 @@
+# @package _global_
+# Paper A FINETUNE: load official Flash3D weights, add appearance-aware spatial branch,
+# finetune with low LR. Backbone starts at Flash3D optimum (28.68 in our harness); the
+# spatial branch (gamma=0 at init) must earn any gain. LPIPS enabled from step 0 since
+# the backbone is already converged.
+config:
+  exp_name: spatial_ft
+
+defaults:
+  - override /dataset: re10k
+  - override /model: gaussian
+  - override /loss: [regularization, reconstruction]
+
+optimiser:
+  learning_rate: 2e-5           # low LR for finetuning (0.2x of the 1e-4 from-scratch LR)
+  scheduler_lambda_step_size: 500000
+
+train:
+  scale_pose_by_depth: true
+  use_gt_poses: true
+  load_weights_folder: /home/data/sv3d-lab/checkpoints/flash3d_official
+
+loss:
+  lpips:
+    apply_after_step: 0         # backbone already trained -> use perceptual loss immediately
+
+model:
+  name: unidepth_spatial
+  gauss_novel_frames: [-1, 1, 2]
+  renderer_w_pose: true
+  scale_with_depth: false
+  opacity_scale: 1.0
+  depth_scale: 0.1
+  xyz_scale: 0.2
+  max_depth: 20
+  depth_cond: true
+  spatial_d_model: 256
+  spatial_num_points: 4096
+  spatial_num_tokens: 32

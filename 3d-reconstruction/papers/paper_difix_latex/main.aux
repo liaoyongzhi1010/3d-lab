@@ -1,0 +1,111 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{flash3d}
+\citation{scenesplatter}
+\citation{viewcrafter}
+\citation{difix}
+\citation{difix}
+\citation{mine}
+\citation{flash3d}
+\citation{flash3d}
+\citation{splatterimage}
+\citation{pixelsplat}
+\citation{mvsplat}
+\citation{depthsplat}
+\citation{catsplat}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{1}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{1}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feed-forward single-view 3D.}{1}{section*.2}\protected@file@percent }
+\citation{difix}
+\citation{gsenhancer}
+\citation{reconfusion}
+\citation{cat3d}
+\citation{deceptivenerf}
+\citation{scenesplatter}
+\citation{viewcrafter}
+\citation{difix}
+\citation{viewcrafter}
+\citation{mine}
+\citation{flash3d}
+\citation{lpips}
+\@writefile{toc}{\contentsline {paragraph}{Diffusion priors for 3D refinement.}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Method}{2}{section.3}\protected@file@percent }
+\newlabel{sec:method}{{3}{2}{Method}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Pipeline}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 1: feed-forward initialization.}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 2: generative repair (pseudo-GT).}{2}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 3: per-scene optimization.}{2}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Evaluation protocol}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Configuration and ablation design}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{2}{section.4}\protected@file@percent }
+\newlabel{sec:exp}{{4}{2}{Experiments}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Setup}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Main result: four-way comparison}{2}{subsection.4.2}\protected@file@percent }
+\citation{flash3d}
+\citation{mine}
+\citation{catsplat}
+\citation{pixelsplat}
+\citation{mvsplat}
+\citation{depthsplat}
+\citation{scenesplatter}
+\citation{acid}
+\citation{acid}
+\citation{acid}
+\@writefile{toc}{\contentsline {paragraph}{Relation to published single-view numbers.}{3}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Component ablation}{3}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Why per-view, not per-pixel? A content-adaptive study}{3}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:contentablation}{{4.4}{3}{Why per-view, not per-pixel? A content-adaptive study}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Efficiency}{3}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Generalization to a second dataset (ACID)}{3}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Why fusion works: the supervisor trade-off}{3}{subsection.4.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Four-way comparison on RealEstate10K MINE (158 samples, standard $256{\times }384$, $5\%$ crop). Difix = single-step image restorer; ViewCrafter = video-diffusion generator; \textsc  {Fusion-Splat}{} = distance-adaptive fusion. LPIPS is VGG; FID per bucket. \textbf  {Bold} = best. \textsc  {Fusion-Splat}{} is the only method that improves every metric at every baseline over Flash3D.}}{4}{table.caption.8}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:main}{{1}{4}{Four-way comparison on RealEstate10K MINE (158 samples, standard $256{\times }384$, $5\%$ crop). Difix = single-step image restorer; ViewCrafter = video-diffusion generator; \method {} = distance-adaptive fusion. LPIPS is VGG; FID per bucket. \textbf {Bold} = best. \method {} is the only method that improves every metric at every baseline over Flash3D}{table.caption.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Component ablation (removal from \textsc  {Fusion-Splat}), 30 scenes, improvement over the Flash3D baseline at large baselines ($+30,+50$). win LPIPS $\downarrow $ (more negative = larger perceptual gain).}}{4}{table.caption.9}\protected@file@percent }
+\newlabel{tab:control}{{2}{4}{Component ablation (removal from \method ), 30 scenes, improvement over the Flash3D baseline at large baselines ($+30,+50$). win LPIPS $\downarrow $ (more negative = larger perceptual gain)}{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Per-view (distance) vs.\ per-pixel (content) fusion, single scene, at the two largest baselines. Per-pixel fusion never beats per-view on perceptual quality; wider thresholds trade a tiny PSNR gain for large LPIPS loss.}}{4}{table.caption.10}\protected@file@percent }
+\newlabel{tab:content}{{3}{4}{Per-view (distance) vs.\ per-pixel (content) fusion, single scene, at the two largest baselines. Per-pixel fusion never beats per-view on perceptual quality; wider thresholds trade a tiny PSNR gain for large LPIPS loss}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Exploration of the three stages}{4}{subsection.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 3 (optimization).}{4}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stage 2 (generative repair).}{4}{section*.16}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Per-stage wall-clock (A6000, $\sim $13 auxiliary views/scene).}}{4}{table.caption.11}\protected@file@percent }
+\newlabel{tab:timing}{{4}{4}{Per-stage wall-clock (A6000, $\sim $13 auxiliary views/scene)}{table.caption.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Generalization on ACID~\cite  {acid} (40 outdoor scenes, $256{\times }384$). LPIPS/FID lower is better; FID reported for the anchor and large buckets.}}{4}{table.caption.12}\protected@file@percent }
+\newlabel{tab:acid}{{5}{4}{Generalization on ACID~\cite {acid} (40 outdoor scenes, $256{\times }384$). LPIPS/FID lower is better; FID reported for the anchor and large buckets}{table.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Stage 1 (supervision density).}{4}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Qualitative results}{4}{subsection.4.9}\protected@file@percent }
+\bibstyle{plain}
+\bibcite{flash3d}{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Large-baseline novel views (rows) under, left to right: Flash3D baseline, self-render optimization, \textsc  {Fusion-Splat}{} (source-referenced Difix supervision), and ground truth. Per-cell VGG-LPIPS is annotated. \textsc  {Fusion-Splat}{} reduces ghosting and over-smoothing in disoccluded regions; gains are perceptual and modest, matching the quantitative controls.}}{5}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:qual}{{1}{5}{Large-baseline novel views (rows) under, left to right: Flash3D baseline, self-render optimization, \method {} (source-referenced Difix supervision), and ground truth. Per-cell VGG-LPIPS is annotated. \method {} reduces ghosting and over-smoothing in disoccluded regions; gains are perceptual and modest, matching the quantitative controls}{figure.caption.20}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Supervisor comparison (158 samples), improvement over Flash3D baseline. winP $\uparrow $, winL (LPIPS) $\downarrow $. \textsc  {Fusion-Splat}{} wins on both at large baselines.}}{5}{table.caption.13}\protected@file@percent }
+\newlabel{tab:supervisor}{{6}{5}{Supervisor comparison (158 samples), improvement over Flash3D baseline. winP $\uparrow $, winL (LPIPS) $\downarrow $. \method {} wins on both at large baselines}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion and Limitations}{5}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{5}{Discussion and Limitations}{section.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Stage-3 exploration (8 scenes). anchor/novel/LPIPS weights. net LPIPS = Difix $-$ self-render at large baselines.}}{5}{table.caption.15}\protected@file@percent }
+\newlabel{tab:stage3}{{7}{5}{Stage-3 exploration (8 scenes). anchor/novel/LPIPS weights. net LPIPS = Difix $-$ self-render at large baselines}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Limitations.}{5}{section*.21}\protected@file@percent }
+\bibcite{difix}{2}
+\bibcite{scenesplatter}{3}
+\bibcite{viewcrafter}{4}
+\bibcite{mine}{5}
+\bibcite{lpips}{6}
+\bibcite{splatterimage}{7}
+\bibcite{pixelsplat}{8}
+\bibcite{mvsplat}{9}
+\bibcite{depthsplat}{10}
+\bibcite{catsplat}{11}
+\bibcite{gsenhancer}{12}
+\bibcite{reconfusion}{13}
+\bibcite{cat3d}{14}
+\bibcite{deceptivenerf}{15}
+\bibcite{acid}{16}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Stage-2 exploration (8 scenes), all optimized with \texttt  {lpips\_nov}.}}{6}{table.caption.17}\protected@file@percent }
+\newlabel{tab:stage2}{{8}{6}{Stage-2 exploration (8 scenes), all optimized with \texttt {lpips\_nov}}{table.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Stage-1 supervision-density exploration (8 scenes). Denser supervision does not help; aux views are highly redundant.}}{6}{table.caption.19}\protected@file@percent }
+\newlabel{tab:stage1}{{9}{6}{Stage-1 supervision-density exploration (8 scenes). Denser supervision does not help; aux views are highly redundant}{table.caption.19}{}}
+\gdef \@abspage@last{6}

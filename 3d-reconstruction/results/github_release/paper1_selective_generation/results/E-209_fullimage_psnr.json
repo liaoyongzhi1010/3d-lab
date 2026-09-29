@@ -1,0 +1,43 @@
+{
+  "N": 166,
+  "mean_vis_frac": 0.9106112732944718,
+  "metric": "constructed full-image PSNR from stored region metrics",
+  "visible_metric_semantics": "Injected/selected visible PSNR is assigned from Gen3R by construction, not independently measured after decoding; direct N=16 visible change was +0.016 dB.",
+  "Gen3R-alone (baseline)": {
+    "mean": 14.094545752083295,
+    "ci95": [
+      13.6144201165328,
+      14.588561749593131
+    ]
+  },
+  "Flash3D (evidence ref.*)": {
+    "mean": 19.15052701004581,
+    "ci95": [
+      18.648491839557874,
+      19.64720202566902
+    ]
+  },
+  "Ours (always inject)": {
+    "mean": 14.345163167413856,
+    "ci95": [
+      13.866047923722217,
+      14.835126175894176
+    ]
+  },
+  "Quality-gap oracle (selects Ours)": {
+    "mean": 14.397794688915207,
+    "ci95": [
+      13.917060965042682,
+      14.890655999616076
+    ]
+  },
+  "quality_gap_oracle_minus_gen3r": {
+    "mean": 0.303248936831917,
+    "ci95": [
+      0.2026774126929834,
+      0.41535557962350583
+    ],
+    "win": 73,
+    "n": 166
+  }
+}

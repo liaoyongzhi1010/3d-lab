@@ -1,0 +1,26 @@
+{
+  "always_mean_gain": 0.4809606906985562,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "results": {
+    "cam[wcls]": {
+      "auc_mean": 0.6112064905812439,
+      "auc_std": 0.03840762274971532,
+      "best_net_gain_mean": 0.7269482450085396,
+      "best_net_gain_std": 0.09726390926498571,
+      "improve_over_always_pct": 51.145043465549456
+    },
+    "cam+geo[wcls]": {
+      "auc_mean": 0.612937106587803,
+      "auc_std": 0.052554970223475383,
+      "best_net_gain_mean": 0.6985629465999152,
+      "best_net_gain_std": 0.10627940504578093,
+      "improve_over_always_pct": 45.24325170635245
+    }
+  }
+}

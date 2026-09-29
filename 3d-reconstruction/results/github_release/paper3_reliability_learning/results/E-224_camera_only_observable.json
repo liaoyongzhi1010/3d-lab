@@ -1,0 +1,736 @@
+{
+  "status": "DONE",
+  "protocol": "grouped leave-one-scene-out CV",
+  "evidence_tier": "genuinely observable camera-only baseline",
+  "label_definition": "teacher invisible PSNR - baseline invisible PSNR > 0.1 dB",
+  "feature_names": [
+    "cam_trans",
+    "cam_rot_deg"
+  ],
+  "excluded_predictor_fields": [
+    "base_inv",
+    "delta",
+    "disocc_frac",
+    "f3d_inv",
+    "f3d_vi_prod",
+    "f3d_vi_ratio",
+    "f3d_vis",
+    "label",
+    "teacher_inv",
+    "vis_frac",
+    "vis_gap"
+  ],
+  "frame_count": 2898,
+  "scene_count": 74,
+  "positive_frame_count": 1607,
+  "negative_frame_count": 1291,
+  "folds": [
+    {
+      "held_out_scene": "train_09987dcb90444a8f",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_09c62d8362825d34",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_09db4e6feaea4714",
+      "train_scenes": 73,
+      "train_frames": 2887,
+      "test_frames": 11
+    },
+    {
+      "held_out_scene": "train_09f50652cb821e5d",
+      "train_scenes": 73,
+      "train_frames": 2859,
+      "test_frames": 39
+    },
+    {
+      "held_out_scene": "train_0a0d0578fc75947d",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0a17ebb98cbae36a",
+      "train_scenes": 73,
+      "train_frames": 2854,
+      "test_frames": 44
+    },
+    {
+      "held_out_scene": "train_0a8a71e40fe5927d",
+      "train_scenes": 73,
+      "train_frames": 2854,
+      "test_frames": 44
+    },
+    {
+      "held_out_scene": "train_0aaaf5508f2ff485",
+      "train_scenes": 73,
+      "train_frames": 2862,
+      "test_frames": 36
+    },
+    {
+      "held_out_scene": "train_0ab1a55e644c522c",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_0ab2ee95193dca6d",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0ab90285e36a4be2",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0ad2597324d6bec5",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_0ad311b66ea61e62",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0ae1ad86765c714c",
+      "train_scenes": 73,
+      "train_frames": 2871,
+      "test_frames": 27
+    },
+    {
+      "held_out_scene": "train_0b11c4c2d21a4f1b",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0b472e112995287f",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_0b6942b5f24df8c0",
+      "train_scenes": 73,
+      "train_frames": 2863,
+      "test_frames": 35
+    },
+    {
+      "held_out_scene": "train_0b8f2051807ee7dc",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_0ba78320121c79fa",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_0bb6a72c60b3791c",
+      "train_scenes": 73,
+      "train_frames": 2861,
+      "test_frames": 37
+    },
+    {
+      "held_out_scene": "train_0bb8a7807f7095fd",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_0bc354faf077bd74",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_0bc6493c5c657689",
+      "train_scenes": 73,
+      "train_frames": 2875,
+      "test_frames": 23
+    },
+    {
+      "held_out_scene": "train_0bdc7f573090746b",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0c0690ed224753ad",
+      "train_scenes": 73,
+      "train_frames": 2863,
+      "test_frames": 35
+    },
+    {
+      "held_out_scene": "train_0c2b1cb610e4f21d",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0c4ad0078fadf621",
+      "train_scenes": 73,
+      "train_frames": 2870,
+      "test_frames": 28
+    },
+    {
+      "held_out_scene": "train_0c524e0e828d4b9c",
+      "train_scenes": 73,
+      "train_frames": 2869,
+      "test_frames": 29
+    },
+    {
+      "held_out_scene": "train_0c629299b723a2f1",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0c8ed42959e3baa1",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0cff48e83dc21019",
+      "train_scenes": 73,
+      "train_frames": 2891,
+      "test_frames": 7
+    },
+    {
+      "held_out_scene": "train_0d49d0970586d7e0",
+      "train_scenes": 73,
+      "train_frames": 2867,
+      "test_frames": 31
+    },
+    {
+      "held_out_scene": "train_0d523169ade73286",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_0d603aba11631cb4",
+      "train_scenes": 73,
+      "train_frames": 2891,
+      "test_frames": 7
+    },
+    {
+      "held_out_scene": "train_0d75be966f561519",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0d8cf8d48624ba61",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_0dd1d031a21641ab",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0dd6fb899f1e3a18",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_0df3aa54019f7377",
+      "train_scenes": 73,
+      "train_frames": 2865,
+      "test_frames": 33
+    },
+    {
+      "held_out_scene": "train_0dfd716fde1dd41a",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_0e126fcfcf5a09b8",
+      "train_scenes": 73,
+      "train_frames": 2864,
+      "test_frames": 34
+    },
+    {
+      "held_out_scene": "train_0e74fd84397c6e13",
+      "train_scenes": 73,
+      "train_frames": 2894,
+      "test_frames": 4
+    },
+    {
+      "held_out_scene": "train_0e895dab0c10b89d",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0eb49c00fbc1331a",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_0ec197e81b8d0f77",
+      "train_scenes": 73,
+      "train_frames": 2876,
+      "test_frames": 22
+    },
+    {
+      "held_out_scene": "train_0ec74c80b0542c7d",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0eeba5401bf6431b",
+      "train_scenes": 73,
+      "train_frames": 2854,
+      "test_frames": 44
+    },
+    {
+      "held_out_scene": "train_0f199a463f36d52a",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_0f269fbd2e54d5c0",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_0f311ab7b651393d",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_0f54778155d5fb15",
+      "train_scenes": 73,
+      "train_frames": 2855,
+      "test_frames": 43
+    },
+    {
+      "held_out_scene": "train_0f5daf32c2e8fefd",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0fa74425b75be77d",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_0fe8246bb7e2fe40",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_100c4c3fa1794647",
+      "train_scenes": 73,
+      "train_frames": 2880,
+      "test_frames": 18
+    },
+    {
+      "held_out_scene": "train_1019dbbdb880e727",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_1026df919a619aed",
+      "train_scenes": 73,
+      "train_frames": 2854,
+      "test_frames": 44
+    },
+    {
+      "held_out_scene": "train_1036635f3c3b8641",
+      "train_scenes": 73,
+      "train_frames": 2860,
+      "test_frames": 38
+    },
+    {
+      "held_out_scene": "train_1051c693c8e75c77",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_109d95d5de8c2056",
+      "train_scenes": 73,
+      "train_frames": 2855,
+      "test_frames": 43
+    },
+    {
+      "held_out_scene": "train_10af229200d8e189",
+      "train_scenes": 73,
+      "train_frames": 2850,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_10b5f22d56ff42a2",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_10b74a67c337afdf",
+      "train_scenes": 73,
+      "train_frames": 2855,
+      "test_frames": 43
+    },
+    {
+      "held_out_scene": "train_10d1864880c5a385",
+      "train_scenes": 73,
+      "train_frames": 2858,
+      "test_frames": 40
+    },
+    {
+      "held_out_scene": "train_10f1c7cda244255d",
+      "train_scenes": 73,
+      "train_frames": 2890,
+      "test_frames": 8
+    },
+    {
+      "held_out_scene": "train_115006bd11398ec2",
+      "train_scenes": 73,
+      "train_frames": 2863,
+      "test_frames": 35
+    },
+    {
+      "held_out_scene": "train_1185cec1560a7b31",
+      "train_scenes": 73,
+      "train_frames": 2862,
+      "test_frames": 36
+    },
+    {
+      "held_out_scene": "train_11a3dd1e7dbfff9e",
+      "train_scenes": 73,
+      "train_frames": 2868,
+      "test_frames": 30
+    },
+    {
+      "held_out_scene": "train_11e3c17da5109ffa",
+      "train_scenes": 73,
+      "train_frames": 2853,
+      "test_frames": 45
+    },
+    {
+      "held_out_scene": "train_1213705aaba383fe",
+      "train_scenes": 73,
+      "train_frames": 2861,
+      "test_frames": 37
+    },
+    {
+      "held_out_scene": "train_124032ee98cb36a2",
+      "train_scenes": 73,
+      "train_frames": 2858,
+      "test_frames": 40
+    },
+    {
+      "held_out_scene": "train_1241752ef8ae4ebf",
+      "train_scenes": 73,
+      "train_frames": 2856,
+      "test_frames": 42
+    },
+    {
+      "held_out_scene": "train_1284233c9a32234e",
+      "train_scenes": 73,
+      "train_frames": 2851,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_12a06166db48270d",
+      "train_scenes": 73,
+      "train_frames": 2852,
+      "test_frames": 46
+    }
+  ],
+  "metrics": {
+    "accuracy": 0.6118012422360248,
+    "roc_auc": 0.6495999059112509,
+    "pr_auc_trapezoidal": 0.6631235562612292
+  },
+  "policy_at_0.5": {
+    "threshold": 0.5,
+    "mean_gain_db": 0.71524745871212,
+    "worst_gain_db": -23.094440460205078,
+    "teacher_calls": 2028,
+    "calls_saved": 870,
+    "calls_saved_fraction": 0.30020703933747417
+  },
+  "threshold_frontier": [
+    {
+      "threshold": 0.2,
+      "mean_gain_db": 0.4788193960151564,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2881,
+      "calls_saved": 17,
+      "calls_saved_fraction": 0.005866114561766778
+    },
+    {
+      "threshold": 0.225,
+      "mean_gain_db": 0.4791090395417273,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2878,
+      "calls_saved": 20,
+      "calls_saved_fraction": 0.0069013112491372874
+    },
+    {
+      "threshold": 0.25,
+      "mean_gain_db": 0.4790489401249247,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2875,
+      "calls_saved": 23,
+      "calls_saved_fraction": 0.007936507936507908
+    },
+    {
+      "threshold": 0.275,
+      "mean_gain_db": 0.4890825604419613,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2851,
+      "calls_saved": 47,
+      "calls_saved_fraction": 0.016218081435472764
+    },
+    {
+      "threshold": 0.30000000000000004,
+      "mean_gain_db": 0.5025944740166328,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2830,
+      "calls_saved": 68,
+      "calls_saved_fraction": 0.02346445824706689
+    },
+    {
+      "threshold": 0.325,
+      "mean_gain_db": 0.5155476529107496,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2806,
+      "calls_saved": 92,
+      "calls_saved_fraction": 0.031746031746031744
+    },
+    {
+      "threshold": 0.35000000000000003,
+      "mean_gain_db": 0.543589478853532,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2767,
+      "calls_saved": 131,
+      "calls_saved_fraction": 0.045203588681849594
+    },
+    {
+      "threshold": 0.375,
+      "mean_gain_db": 0.5854132424672363,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2699,
+      "calls_saved": 199,
+      "calls_saved_fraction": 0.06866804692891648
+    },
+    {
+      "threshold": 0.4,
+      "mean_gain_db": 0.6115087517495399,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2629,
+      "calls_saved": 269,
+      "calls_saved_fraction": 0.09282263630089715
+    },
+    {
+      "threshold": 0.42500000000000004,
+      "mean_gain_db": 0.6309643753433408,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2526,
+      "calls_saved": 372,
+      "calls_saved_fraction": 0.12836438923395443
+    },
+    {
+      "threshold": 0.45,
+      "mean_gain_db": 0.6380077080481047,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2395,
+      "calls_saved": 503,
+      "calls_saved_fraction": 0.17356797791580403
+    },
+    {
+      "threshold": 0.47500000000000003,
+      "mean_gain_db": 0.6777821353040867,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2261,
+      "calls_saved": 637,
+      "calls_saved_fraction": 0.21980676328502413
+    },
+    {
+      "threshold": 0.5,
+      "mean_gain_db": 0.71524745871212,
+      "worst_gain_db": -23.094440460205078,
+      "teacher_calls": 2028,
+      "calls_saved": 870,
+      "calls_saved_fraction": 0.30020703933747417
+    },
+    {
+      "threshold": 0.525,
+      "mean_gain_db": 0.7046953592272032,
+      "worst_gain_db": -13.745978355407715,
+      "teacher_calls": 1728,
+      "calls_saved": 1170,
+      "calls_saved_fraction": 0.40372670807453415
+    },
+    {
+      "threshold": 0.55,
+      "mean_gain_db": 0.7629376753105469,
+      "worst_gain_db": -13.745978355407715,
+      "teacher_calls": 1377,
+      "calls_saved": 1521,
+      "calls_saved_fraction": 0.5248447204968945
+    },
+    {
+      "threshold": 0.575,
+      "mean_gain_db": 0.7158275321897266,
+      "worst_gain_db": -7.898035526275635,
+      "teacher_calls": 1065,
+      "calls_saved": 1833,
+      "calls_saved_fraction": 0.6325051759834368
+    },
+    {
+      "threshold": 0.6000000000000001,
+      "mean_gain_db": 0.5933174752958731,
+      "worst_gain_db": -7.898035526275635,
+      "teacher_calls": 896,
+      "calls_saved": 2002,
+      "calls_saved_fraction": 0.6908212560386473
+    },
+    {
+      "threshold": 0.625,
+      "mean_gain_db": 0.491347462905531,
+      "worst_gain_db": -7.811389207839966,
+      "teacher_calls": 735,
+      "calls_saved": 2163,
+      "calls_saved_fraction": 0.7463768115942029
+    },
+    {
+      "threshold": 0.65,
+      "mean_gain_db": 0.3736926262916739,
+      "worst_gain_db": -7.345504999160767,
+      "teacher_calls": 606,
+      "calls_saved": 2292,
+      "calls_saved_fraction": 0.7908902691511387
+    },
+    {
+      "threshold": 0.675,
+      "mean_gain_db": 0.27109772152041794,
+      "worst_gain_db": -7.0365166664123535,
+      "teacher_calls": 495,
+      "calls_saved": 2403,
+      "calls_saved_fraction": 0.829192546583851
+    },
+    {
+      "threshold": 0.7,
+      "mean_gain_db": 0.20796141441811192,
+      "worst_gain_db": -7.0365166664123535,
+      "teacher_calls": 396,
+      "calls_saved": 2502,
+      "calls_saved_fraction": 0.8633540372670807
+    },
+    {
+      "threshold": 0.7250000000000001,
+      "mean_gain_db": 0.13478281639459794,
+      "worst_gain_db": -7.0365166664123535,
+      "teacher_calls": 298,
+      "calls_saved": 2600,
+      "calls_saved_fraction": 0.8971704623878537
+    },
+    {
+      "threshold": 0.75,
+      "mean_gain_db": 0.07591258196110064,
+      "worst_gain_db": -7.0365166664123535,
+      "teacher_calls": 226,
+      "calls_saved": 2672,
+      "calls_saved_fraction": 0.922015182884748
+    },
+    {
+      "threshold": 0.7750000000000001,
+      "mean_gain_db": 0.03678233521489788,
+      "worst_gain_db": -7.022225618362427,
+      "teacher_calls": 160,
+      "calls_saved": 2738,
+      "calls_saved_fraction": 0.9447895100069013
+    },
+    {
+      "threshold": 0.8,
+      "mean_gain_db": 0.01809529019191892,
+      "worst_gain_db": -6.625902891159058,
+      "teacher_calls": 106,
+      "calls_saved": 2792,
+      "calls_saved_fraction": 0.9634230503795721
+    },
+    {
+      "threshold": 0.825,
+      "mean_gain_db": 0.01035101328165964,
+      "worst_gain_db": -5.279500246047974,
+      "teacher_calls": 39,
+      "calls_saved": 2859,
+      "calls_saved_fraction": 0.9865424430641822
+    },
+    {
+      "threshold": 0.8500000000000001,
+      "mean_gain_db": -0.004635188314649794,
+      "worst_gain_db": -4.542185306549072,
+      "teacher_calls": 4,
+      "calls_saved": 2894,
+      "calls_saved_fraction": 0.9986197377501725
+    },
+    {
+      "threshold": 0.875,
+      "mean_gain_db": 0.0,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 0,
+      "calls_saved": 2898,
+      "calls_saved_fraction": 1.0
+    },
+    {
+      "threshold": 0.9000000000000001,
+      "mean_gain_db": 0.0,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 0,
+      "calls_saved": 2898,
+      "calls_saved_fraction": 1.0
+    },
+    {
+      "threshold": 0.925,
+      "mean_gain_db": 0.0,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 0,
+      "calls_saved": 2898,
+      "calls_saved_fraction": 1.0
+    },
+    {
+      "threshold": 0.95,
+      "mean_gain_db": 0.0,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 0,
+      "calls_saved": 2898,
+      "calls_saved_fraction": 1.0
+    }
+  ]
+}

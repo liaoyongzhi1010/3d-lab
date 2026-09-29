@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software or its released analyses, please cite it."
+title: "Selective Generation, Distillation, and Reliability for Single-View Scene Reconstruction"
+type: software
+authors:
+  - name: "liaoyongzhi1010"
+repository-code: "https://github.com/liaoyongzhi1010/3d"
+license: MIT

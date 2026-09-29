@@ -1,0 +1,391 @@
+{
+  "status": "DONE_WITH_CONCERNS",
+  "concern": "Evaluation uses 21 scenes selected from the available high-gain teacher_npy directory; it is not population-aligned and generalization is not established.",
+  "protocol": "grouped leave-one-scene-out CV",
+  "evidence_tier": "RGB disagreement + oracle-visibility diagnostic",
+  "selection": "selected, not population-aligned",
+  "selection_source": "/home/data/E-161_gen3r_highgain/teacher_npy",
+  "selection_manifest": "E-223_selected_scene_manifest.json",
+  "visibility_provenance": "visibility.npy is derived by VGGT from the complete target clip and is not available at single-image inference",
+  "label_definition": "teacher invisible PSNR - baseline invisible PSNR > 0.1 dB",
+  "predictor_data_policy": "RGB and camera inputs are combined with oracle visibility from the complete target clip; GT and teacher arrays are label/evaluation-only.",
+  "feature_names": [
+    "disagree_inv_mean",
+    "disagree_inv_std",
+    "disagree_inv_q25",
+    "disagree_inv_q50",
+    "disagree_inv_q75",
+    "disagree_inv_q90",
+    "disagree_vis_mean",
+    "disagree_vis_std",
+    "disagree_vis_q25",
+    "disagree_vis_q50",
+    "disagree_vis_q75",
+    "disagree_vis_q90",
+    "base_grad_inv_mean",
+    "base_grad_inv_std",
+    "base_grad_vis_mean",
+    "base_grad_vis_std",
+    "f3d_grad_inv_mean",
+    "f3d_grad_inv_std",
+    "f3d_grad_vis_mean",
+    "f3d_grad_vis_std",
+    "disocc_frac",
+    "cam_translation",
+    "cam_rotation_deg",
+    "disagree_inv_minus_vis",
+    "disagree_inv_vis_ratio",
+    "disagree_inv_x_disocc",
+    "cam_translation_x_disocc",
+    "cam_rotation_x_disocc"
+  ],
+  "scene_count": 21,
+  "frame_count": 910,
+  "positive_frame_count": 878,
+  "negative_frame_count": 32,
+  "positive_fraction": 0.9648351648351648,
+  "scene_frame_counts": {
+    "train_005ee91e6c694114": 47,
+    "train_011dbae1fc189e93": 46,
+    "train_011fbca4c333495f": 46,
+    "train_012d6a11ce2461e5": 47,
+    "train_0203111abb410f9e": 48,
+    "train_025a7502ca9a1e7b": 47,
+    "train_02cf87b32fe3d75a": 48,
+    "train_03150a5a24b88cf4": 46,
+    "train_037a2b4741801a41": 40,
+    "train_039f60e42dce9e90": 38,
+    "train_04350c5274a81d85": 48,
+    "train_044aeb98dffe4dc7": 48,
+    "train_051a0cef1ab97aa0": 7,
+    "train_05846e2bbc1ea5e0": 47,
+    "train_05b4833383b01223": 47,
+    "train_0672e7f9286387ce": 39,
+    "train_070f5fde5fa6c61c": 39,
+    "train_07d3325178e7a790": 40,
+    "train_08f02e7ec7dd69da": 48,
+    "train_094f8c7e2d09a79b": 47,
+    "train_09821bf4200cbbc5": 47
+  },
+  "folds": [
+    {
+      "held_out_scene": "train_005ee91e6c694114",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_011dbae1fc189e93",
+      "train_scenes": 20,
+      "train_frames": 864,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_011fbca4c333495f",
+      "train_scenes": 20,
+      "train_frames": 864,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_012d6a11ce2461e5",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0203111abb410f9e",
+      "train_scenes": 20,
+      "train_frames": 862,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_025a7502ca9a1e7b",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_02cf87b32fe3d75a",
+      "train_scenes": 20,
+      "train_frames": 862,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_03150a5a24b88cf4",
+      "train_scenes": 20,
+      "train_frames": 864,
+      "test_frames": 46
+    },
+    {
+      "held_out_scene": "train_037a2b4741801a41",
+      "train_scenes": 20,
+      "train_frames": 870,
+      "test_frames": 40
+    },
+    {
+      "held_out_scene": "train_039f60e42dce9e90",
+      "train_scenes": 20,
+      "train_frames": 872,
+      "test_frames": 38
+    },
+    {
+      "held_out_scene": "train_04350c5274a81d85",
+      "train_scenes": 20,
+      "train_frames": 862,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_044aeb98dffe4dc7",
+      "train_scenes": 20,
+      "train_frames": 862,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_051a0cef1ab97aa0",
+      "train_scenes": 20,
+      "train_frames": 903,
+      "test_frames": 7
+    },
+    {
+      "held_out_scene": "train_05846e2bbc1ea5e0",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_05b4833383b01223",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_0672e7f9286387ce",
+      "train_scenes": 20,
+      "train_frames": 871,
+      "test_frames": 39
+    },
+    {
+      "held_out_scene": "train_070f5fde5fa6c61c",
+      "train_scenes": 20,
+      "train_frames": 871,
+      "test_frames": 39
+    },
+    {
+      "held_out_scene": "train_07d3325178e7a790",
+      "train_scenes": 20,
+      "train_frames": 870,
+      "test_frames": 40
+    },
+    {
+      "held_out_scene": "train_08f02e7ec7dd69da",
+      "train_scenes": 20,
+      "train_frames": 862,
+      "test_frames": 48
+    },
+    {
+      "held_out_scene": "train_094f8c7e2d09a79b",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    },
+    {
+      "held_out_scene": "train_09821bf4200cbbc5",
+      "train_scenes": 20,
+      "train_frames": 863,
+      "test_frames": 47
+    }
+  ],
+  "metrics": {
+    "accuracy_at_0.5": 0.9648351648351648,
+    "roc_auc": 0.4255410022779043,
+    "average_precision": 0.9290203694623831
+  },
+  "policies": {
+    "always_teacher": {
+      "threshold": null,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    "diagnostic_model_at_0.5": {
+      "threshold": 0.5,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    "oracle_positive_gain": {
+      "threshold": null,
+      "mean_gain_db": 5.453393635288098,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 879,
+      "calls_saved": 31,
+      "calls_saved_fraction": 0.034065934065934056
+    },
+    "oracle_label_threshold": {
+      "threshold": null,
+      "mean_gain_db": 5.453304637312338,
+      "worst_gain_db": 0.0,
+      "teacher_calls": 878,
+      "calls_saved": 32,
+      "calls_saved_fraction": 0.03516483516483515
+    }
+  },
+  "threshold_frontier": [
+    {
+      "threshold": 0.05,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.1,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.15,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.2,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.25,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.3,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.35,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.4,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.45,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.5,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.55,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.6,
+      "mean_gain_db": 5.373229928835077,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 910,
+      "calls_saved": 0,
+      "calls_saved_fraction": 0.0
+    },
+    {
+      "threshold": 0.65,
+      "mean_gain_db": 5.368272961399651,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 908,
+      "calls_saved": 2,
+      "calls_saved_fraction": 0.00219780219780219
+    },
+    {
+      "threshold": 0.7,
+      "mean_gain_db": 5.3630178520589284,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 906,
+      "calls_saved": 4,
+      "calls_saved_fraction": 0.00439560439560438
+    },
+    {
+      "threshold": 0.75,
+      "mean_gain_db": 5.3462776794456675,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 900,
+      "calls_saved": 10,
+      "calls_saved_fraction": 0.01098901098901095
+    },
+    {
+      "threshold": 0.8,
+      "mean_gain_db": 5.29660234377061,
+      "worst_gain_db": -6.194239471982961,
+      "teacher_calls": 890,
+      "calls_saved": 20,
+      "calls_saved_fraction": 0.02197802197802201
+    },
+    {
+      "threshold": 0.85,
+      "mean_gain_db": 5.219882293527564,
+      "worst_gain_db": -5.832661117671083,
+      "teacher_calls": 866,
+      "calls_saved": 44,
+      "calls_saved_fraction": 0.0483516483516484
+    },
+    {
+      "threshold": 0.9,
+      "mean_gain_db": 5.081773177439665,
+      "worst_gain_db": -5.832661117671083,
+      "teacher_calls": 829,
+      "calls_saved": 81,
+      "calls_saved_fraction": 0.08901098901098903
+    },
+    {
+      "threshold": 0.95,
+      "mean_gain_db": 4.568788613043123,
+      "worst_gain_db": -4.17218335006449,
+      "teacher_calls": 701,
+      "calls_saved": 209,
+      "calls_saved_fraction": 0.22967032967032963
+    }
+  ]
+}

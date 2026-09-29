@@ -1,0 +1,47 @@
+E-100 LESSONS LEARNED
+=====================
+
+1. SCALE INITIALIZATION IS CRITICAL
+   - v1 used dist_to_camera/focal * 0.8 (pixel footprint) -> works perfectly
+   - v2/v3 tried KNN-based scale -> catastrophically broke rendering (L1=0.40, 5 dB)
+   - NEVER replace proven scale init with KNN on this data; depth range is 1-2m
+     and KNN in 3D picks up inter-frame redundancy, giving wrong scale
+
+2. REGULARIZATION CAN HURT
+   - scale_reg + entropy_reg in v2/v3 pushed scales toward wrong targets
+   - Simple L1 loss alone is sufficient for per-scene optimization
+   - Do NOT add regularizers unless verified on eval frames
+
+3. TRAINING RESOLUTION MUST MATCH EVAL
+   - v2/v3 trained at 280x280 evaluated at 560x560 -> broken
+   - v1/v4 train at full 560x560 -> consistent quality
+
+4. HOLE-FILLING INIT WORKS (PARTIALLY)
+   - Interpolating from mask boundaries fills black region with reasonable geometry
+   - BUT filled content is noisy/blobby (scattered 3D points lack coherent surface)
+   - Confidence gating correctly identifies these as low-conf and densifies more
+
+5. CONFIDENCE GATING GIVES MODEST BUT CONSISTENT IMPROVEMENT
+   - Ours vs Vanilla: +0.04 to +0.24 dB PSNR, better LPIPS (both frames)
+   - Gate concentrates refinement on unreliable (disocclusion/boundary) regions
+   - Effect modest because MLP head is simple and per-scene data limited
+
+6. THE REAL BOTTLENECK: 3D FILL QUALITY
+   - Flash3D wins PSNR by 2-5 dB because neural rendering produces smooth plausible fills
+   - Our explicit 3DGS fills are noisy point clouds without coherent surfaces
+   - To close gap: need 3D-native generative fill, not just densification
+
+7. LPIPS TELLS A DIFFERENT STORY
+   - Ours BEATS Flash3D on f36 LPIPS (0.479 vs 0.505) = sharper, less ghosting in visible region
+   - Flash3D smooth fills are perceptually worse (texture loss) despite higher PSNR
+   - Validates 3D-explicit approach for visible-region quality
+
+8. OOM NEVER HIT
+   - 400K->631K Gaussians at 560x560 used only 1.0 GB peak (gsplat efficient)
+   - 25GB budget never close to being used
+   - Real constraint is attack subagent + system, not our training
+
+9. PER-SCENE vs FEED-FORWARD
+   - This is per-scene test-time optimization (1200 iters, 18s per scene)
+   - Paper must be explicit; NOT a feed-forward method
+   - To make feed-forward: train MLP head across scenes with confidence features

@@ -1,0 +1,109 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{pixelsplat}
+\citation{mvsplat}
+\citation{depthsplat}
+\citation{gaussiansplatting}
+\citation{flash3d}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{1}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{1}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Feed-forward 3D reconstruction.}{1}{section*.2}\protected@file@percent }
+\citation{viewcrafter}
+\citation{cat3d}
+\citation{genwarp}
+\citation{repaint}
+\citation{repa}
+\citation{geometryforcing}
+\citation{realestate10k}
+\@writefile{toc}{\contentsline {paragraph}{Generative novel view synthesis.}{2}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Injecting geometry into diffusion models.}{2}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Reliability, routing and test-time guidance.}{2}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Method}{2}{section.3}\protected@file@percent }
+\newlabel{sec:method}{{3}{2}{Method}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Overview}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Asymmetric Geometry Injection}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Selective geometry-guided generation}}{2}{algorithm.1}\protected@file@percent }
+\newlabel{alg:main}{{1}{2}{Selective geometry-guided generation}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Clean-Space Confidence}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Learned Injection Weight}{2}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Test-Time Reliability Gate}{2}{subsection.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Algorithm}{2}{subsection.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{2}{section.4}\protected@file@percent }
+\newlabel{sec:exp}{{4}{2}{Experiments}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Protocol and Implementation Details}{2}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:protocol}{{4.1}{2}{Protocol and Implementation Details}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dataset.}{2}{section*.7}\protected@file@percent }
+\citation{lpips}
+\citation{ldm}
+\citation{realestate10k}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Test-time pipeline. From a single image and a target camera path, a feed-forward geometry expert (Flash3D) renders per-view evidence and a visibility mask, while a frozen generative backbone (Gen3R) produces a baseline latent. During a second denoising pass we perform \emph  {asymmetric injection}: the Flash3D evidence, weighted by a clean-space confidence / learned InjectionWeightNet, replaces the latent \emph  {only} in disoccluded pixels. A test-time reliability gate compares the geometry expert against the baseline and either keeps the injected result or falls back to the Gen3R baseline, so visible regions are never harmed.}}{3}{figure.caption.6}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:pipeline}{{1}{3}{Test-time pipeline. From a single image and a target camera path, a feed-forward geometry expert (Flash3D) renders per-view evidence and a visibility mask, while a frozen generative backbone (Gen3R) produces a baseline latent. During a second denoising pass we perform \emph {asymmetric injection}: the Flash3D evidence, weighted by a clean-space confidence / learned InjectionWeightNet, replaces the latent \emph {only} in disoccluded pixels. A test-time reliability gate compares the geometry expert against the baseline and either keeps the injected result or falls back to the Gen3R baseline, so visible regions are never harmed}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Metrics.}{3}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Backbone and hardware.}{3}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Compute, carbon, and licensing.}{3}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Main Results}{3}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:main}{{4.2}{3}{Main Results}{subsection.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Gate ablation (16-scene test set). The gate must compare Flash3D against Gen3R; an absolute Flash3D reliability signal is insufficient.}}{3}{table.caption.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Perceptual Metrics}{3}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:perceptual}{{4.3}{3}{Perceptual Metrics}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Gate Ablation}{3}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:gate}{{4.4}{3}{Gate Ablation}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Gate-threshold sensitivity (N=166).}{3}{section*.12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Component ablation on invisible-region PSNR (N=166) with bootstrap 95\% CIs. Visible-region PSNR is identical for Gen3R-alone and Ours (14.48\,dB) since injection touches only invisible pixels.}}{4}{table.caption.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Component Ablation}{4}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:component}{{4.5}{4}{Component Ablation}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Mechanism Analysis}{4}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:mechanism}{{4.6}{4}{Mechanism Analysis}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Standard Full-Image Metrics}{4}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:stdmetrics}{{4.7}{4}{Standard Full-Image Metrics}{subsection.4.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Standard full-image metrics (759 frames, 21 scenes with disocclusion). LPIPS uses the VGG backbone, matching Flash3D and pixelSplat. Our selective injection achieves the best perceptual quality (LPIPS) while lifting PSNR $+1.45$~dB over the generative baseline.}}{4}{table.caption.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Published methods for positioning only (different protocols, not a head-to-head comparison). Our generative backbone optimizes plausibility not pixel-MSE, and we evaluate long 49-frame sequences on disocclusion-heavy frames.}}{4}{table.caption.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Positioning vs Published Methods}{4}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:positioning}{{4.8}{4}{Positioning vs Published Methods}{subsection.4.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Difficulty Split and Large-Scale Validation}{4}{subsection.4.9}\protected@file@percent }
+\newlabel{sec:scale}{{4.9}{4}{Difficulty Split and Large-Scale Validation}{subsection.4.9}{}}
+\bibstyle{plain}
+\bibdata{refs}
+\bibcite{pixelsplat}{1}
+\bibcite{mvsplat}{2}
+\bibcite{cat3d}{3}
+\bibcite{gaussiansplatting}{4}
+\bibcite{repaint}{5}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Difficulty split on N=166 (always inject). Injection value concentrates on hard disoccluded scenes and is harmful when the baseline is already good.}}{5}{table.caption.16}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Cross-dataset difficulty split on ACID (outdoor aerial). The RealEstate10K pattern reproduces without retuning: injection helps hard disoccluded scenes and hurts easy ones.}}{5}{table.caption.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}Cross-Dataset Generalization (ACID)}{5}{subsection.4.10}\protected@file@percent }
+\newlabel{sec:acid}{{4.10}{5}{Cross-Dataset Generalization (ACID)}{subsection.4.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11}Qualitative Results}{5}{subsection.4.11}\protected@file@percent }
+\newlabel{sec:qual}{{4.11}{5}{Qualitative Results}{subsection.4.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Limitations}{5}{section.5}\protected@file@percent }
+\newlabel{sec:limits}{{5}{5}{Limitations}{section.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Temporal consistency is not an optimization target.}{5}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{5}{section.6}\protected@file@percent }
+\newlabel{sec:concl}{{6}{5}{Conclusion}{section.6}{}}
+\bibcite{ldm}{6}
+\bibcite{genwarp}{7}
+\bibcite{flash3d}{8}
+\bibcite{geometryforcing}{9}
+\bibcite{depthsplat}{10}
+\bibcite{repa}{11}
+\bibcite{viewcrafter}{12}
+\bibcite{lpips}{13}
+\bibcite{realestate10k}{14}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Success case (outdoor patio, up to $+10.4$~dB). Rows: GT, Gen3R baseline, ours, disocclusion mask, error map of baseline, error map of ours; columns are target views. Error concentrates (brighter) in the disoccluded strip for the baseline and is reduced by injection, while visible content is unchanged.}}{7}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:panel_success}{{2}{7}{Success case (outdoor patio, up to $+10.4$~dB). Rows: GT, Gen3R baseline, ours, disocclusion mask, error map of baseline, error map of ours; columns are target views. Error concentrates (brighter) in the disoccluded strip for the baseline and is reduced by injection, while visible content is unchanged}{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Failure case ($-8.5$~dB). The Gen3R baseline already reconstructs the disoccluded region well, so forcing feed-forward evidence increases error. The reliability gate rejects injection here, falling back to the baseline.}}{8}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:panel_failure}{{3}{8}{Failure case ($-8.5$~dB). The Gen3R baseline already reconstructs the disoccluded region well, so forcing feed-forward evidence increases error. The reliability gate rejects injection here, falling back to the baseline}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Teaser: input, GT, Gen3R baseline, and ours across target views, with per-target disocclusion-PSNR gains.}}{9}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:teaser}{{4}{9}{Teaser: input, GT, Gen3R baseline, and ours across target views, with per-target disocclusion-PSNR gains}{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Mechanism: the invisible-region gap between the geometry expert and the generative baseline predicts injection benefit ($r=0.982$, N=166).}}{9}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:mechanism}{{5}{9}{Mechanism: the invisible-region gap between the geometry expert and the generative baseline predicts injection benefit ($r=0.982$, N=166)}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Injection benefit by baseline difficulty. Gains concentrate on hard disoccluded scenes; easy scenes are hurt, motivating the gate.}}{9}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:difficulty}{{6}{9}{Injection benefit by baseline difficulty. Gains concentrate on hard disoccluded scenes; easy scenes are hurt, motivating the gate}{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Gate operating behaviour: selective injection recovers 98\% of the oracle-gate gain while eliminating catastrophic degradations.}}{9}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:gate}{{7}{9}{Gate operating behaviour: selective injection recovers 98\% of the oracle-gate gain while eliminating catastrophic degradations}{figure.caption.23}{}}
+\gdef \@abspage@last{9}

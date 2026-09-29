@@ -1,0 +1,91 @@
+\begin{thebibliography}{10}
+
+\bibitem{pixelsplat}
+David Charatan, Sizhe Li, Andrea Tagliasacchi, and Vincent Sitzmann.
+\newblock pixelsplat: 3d gaussian splats from image pairs for scalable
+  generalizable 3d reconstruction.
+\newblock In {\em CVPR}, 2024.
+
+\bibitem{mvsplat}
+Yuedong Chen, Haofei Xu, Chuanxia Zheng, Bohan Zhuang, Marc Pollefeys, Andreas
+  Geiger, Tat-Jen Cham, and Jianfei Cai.
+\newblock Mvsplat: Efficient 3d gaussian splatting from sparse multi-view
+  images.
+\newblock In {\em ECCV}, 2024.
+
+\bibitem{cat3d}
+Ruiqi Gao, Aleksander Holynski, Philipp Henzler, Arthur Brussee, Ricardo
+  Martin-Brualla, Pratul Srinivasan, Jonathan~T. Barron, and Ben Poole.
+\newblock Cat3d: Create anything in 3d with multi-view diffusion models.
+\newblock In {\em NeurIPS}, 2024.
+
+\bibitem{gaussiansplatting}
+Bernhard Kerbl, Georgios Kopanas, Thomas Leimk{\"u}hler, and George Drettakis.
+\newblock 3d gaussian splatting for real-time radiance field rendering.
+\newblock In {\em ACM Transactions on Graphics}, 2023.
+
+\bibitem{repaint}
+Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and
+  Luc Van~Gool.
+\newblock Repaint: Inpainting using denoising diffusion probabilistic models.
+\newblock In {\em CVPR}, 2022.
+
+\bibitem{ldm}
+Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn
+  Ommer.
+\newblock High-resolution image synthesis with latent diffusion models.
+\newblock In {\em CVPR}, 2022.
+
+\bibitem{genwarp}
+Junyoung Seo, Kazumi Fukuda, Takashi Shibuya, Takuya Narihira, Naoki Murata,
+  Shoukang Hu, Chieh-Hsin Lai, Seungryong Kim, and Yuki Mitsufuji.
+\newblock Genwarp: Single image to novel views with semantic-preserving
+  generative warping.
+\newblock In {\em NeurIPS}, 2024.
+
+\bibitem{flash3d}
+Stanislaw Szymanowicz, Eldar Insafutdinov, Chuanxia Zheng, Dylan Campbell, Joao
+  Henriques, Christian Rupprecht, and Andrea Vedaldi.
+\newblock Flash3d: Feed-forward generalisable 3d scene reconstruction from a
+  single image.
+\newblock In {\em arXiv preprint arXiv:2406.04343}, 2024.
+
+\bibitem{geometryforcing}
+Haoyu Wu et~al.
+\newblock Geometry forcing: Marrying video diffusion and 3d representation for
+  consistent world modeling.
+\newblock In {\em arXiv preprint arXiv:2507.07982}, 2025.
+
+\bibitem{depthsplat}
+Haofei Xu, Songyou Peng, Fangjinhua Wang, Hermann Blum, Daniel Barath, Andreas
+  Geiger, and Marc Pollefeys.
+\newblock Depthsplat: Connecting gaussian splatting and depth.
+\newblock In {\em CVPR}, 2025.
+
+\bibitem{repa}
+Sihyun Yu, Sangkyung Kwak, Huiwon Jang, Jongheon Jeong, Jonathan Huang, Jinwoo
+  Shin, and Saining Xie.
+\newblock Representation alignment for generation: Training diffusion
+  transformers is easier than you think.
+\newblock In {\em ICLR}, 2025.
+
+\bibitem{viewcrafter}
+Wangbo Yu, Jinbo Xing, Li~Yuan, Wenbo Hu, Xiaoyu Li, Zhipeng Huang, Xiangjun
+  Gao, Tien-Tsin Wong, Ying Shan, and Yonghong Tian.
+\newblock Viewcrafter: Taming video diffusion models for high-fidelity novel
+  view synthesis.
+\newblock In {\em arXiv preprint arXiv:2409.02048}, 2024.
+
+\bibitem{lpips}
+Richard Zhang, Phillip Isola, Alexei~A. Efros, Eli Shechtman, and Oliver Wang.
+\newblock The unreasonable effectiveness of deep features as a perceptual
+  metric.
+\newblock In {\em CVPR}, 2018.
+
+\bibitem{realestate10k}
+Tinghui Zhou, Richard Tucker, John Flynn, Graham Fyffe, and Noah Snavely.
+\newblock Stereo magnification: Learning view synthesis using multiplane
+  images.
+\newblock In {\em SIGGRAPH}, 2018.
+
+\end{thebibliography}

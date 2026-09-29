@@ -1,0 +1,33 @@
+{
+  "selection_policy": "Deterministic E-218 score ranking followed by manual semantic de-duplication; every published success is an unchanged ranking entry.",
+  "ranking_source": "E-218_obvious_qual_ranking.json",
+  "published_successes": [
+    {
+      "asset": "paper/figs/obvious_cases/01_window_recovery.png",
+      "semantic_label": "window recovery",
+      "ranking_index_zero_based": 2,
+      "sid": "train_094f8c7e2d09a79b",
+      "frame": 48,
+      "roi_xyxy": [0, 160, 144, 304],
+      "psnr_gain_db": 12.579046685151132
+    },
+    {
+      "asset": "paper/figs/obvious_cases/02_doorway_recovery.png",
+      "semantic_label": "doorway/floor recovery",
+      "ranking_index_zero_based": 6,
+      "sid": "train_012d6a11ce2461e5",
+      "frame": 48,
+      "roi_xyxy": [416, 320, 560, 464],
+      "psnr_gain_db": 12.532906959344565
+    },
+    {
+      "asset": "paper/figs/obvious_cases/03_sofa_window_recovery.png",
+      "semantic_label": "sofa/window recovery",
+      "ranking_index_zero_based": 12,
+      "sid": "train_04350c5274a81d85",
+      "frame": 34,
+      "roi_xyxy": [416, 96, 560, 240],
+      "psnr_gain_db": 5.5371901242718735
+    }
+  ]
+}

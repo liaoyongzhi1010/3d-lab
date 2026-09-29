@@ -1,0 +1,14 @@
+{
+  "depth_absrel": 0.9581515602767467,
+  "depth_delta_gt10pct": 0.649766331166029,
+  "src_rgb_psnr": 32.5328785777092,
+  "n_scenes": 40,
+  "config": {
+    "split": "splits/re10k_mine_filtered/test_files_present.txt",
+    "out": "/root/flash3d-attack/results/depth_transfer_n40.json",
+    "max_scenes": 40,
+    "epsilon": 0.03137254901960784,
+    "steps": 40,
+    "lambda_src": 3.0
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "regions": {
+    "visible": {
+      "clean_psnr": 26.56509401798248,
+      "attacked_psnr": 21.082927703857422,
+      "delta_psnr": -5.48216631412506,
+      "mean_frac": 0.9569841311623652,
+      "n": 240
+    },
+    "occluded": {
+      "clean_psnr": 17.312019030253094,
+      "attacked_psnr": 12.855055809020996,
+      "delta_psnr": -4.4569632212320975,
+      "mean_frac": 0.015797933253149193,
+      "n": 3
+    },
+    "beyond": {
+      "clean_psnr": 20.23496748189457,
+      "attacked_psnr": 9.67825695530313,
+      "delta_psnr": -10.556710526591441,
+      "mean_frac": 0.08282454255357628,
+      "n": 122
+    }
+  },
+  "n_scenes": 80,
+  "config": {
+    "split": "splits/re10k_mine_filtered/test_files_present.txt",
+    "out": "results/region_metrics_n80.json",
+    "max_scenes": 80,
+    "method": "dpc",
+    "epsilon": 0.03137254901960784,
+    "steps": 40,
+    "lambda_src": 3.0,
+    "n_aux_poses": 4,
+    "min_region_frac": 0.01
+  }
+}

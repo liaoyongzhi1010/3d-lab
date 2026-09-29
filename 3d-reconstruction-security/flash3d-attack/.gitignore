@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Large artifacts (keep JSON metrics, drop heavy binaries)
+*.pth
+*.pt
+*.ckpt
+*.mp4
+*.npy
+*.npz
+
+# Keep result JSONs and qualitative PNGs referenced by the paper
+!results/**/*.json
+# (qualitative PNGs are kept intentionally for the project page)
+
+# Editor
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,172 @@
+{
+  "reference": {
+    "always": {
+      "mean_gain": 0.4809606906985562,
+      "worst": -23.094440460205078,
+      "n_inject": 2898,
+      "inject_frac": 1.0,
+      "n_catastrophic(<-3)": 467
+    },
+    "never": {
+      "mean_gain": 0.0,
+      "worst": 0.0,
+      "n_inject": 0,
+      "inject_frac": 0.0,
+      "n_catastrophic(<-3)": 0
+    },
+    "oracle(delta>0)": {
+      "mean_gain": 1.7028708669380783,
+      "worst": 0.0,
+      "n_inject": 1642,
+      "inject_frac": 0.5665976535541752,
+      "n_catastrophic(<-3)": 0
+    }
+  },
+  "gates": {
+    "cam[cls]": {
+      "n_feats": 2,
+      "roc_auc": 0.635667348071012,
+      "best_net_gain": {
+        "tau": 0.47500000000000003,
+        "mean_gain": 0.7479609246086136,
+        "worst": -22.463075637817383,
+        "n_inject": 1473,
+        "inject_frac": 0.5082815734989649,
+        "n_catastrophic(<-3)": 192
+      },
+      "risk_averse_best": {
+        "tau": 0.8500000000000001,
+        "mean_gain": 0.09247997960524365,
+        "worst": -0.7868318557739258,
+        "n_inject": 45,
+        "inject_frac": 0.015527950310559006,
+        "n_catastrophic(<-3)": 0
+      }
+    },
+    "cam[wcls]": {
+      "n_feats": 2,
+      "roc_auc": 0.5972881038948018,
+      "best_net_gain": {
+        "tau": 0.4,
+        "mean_gain": 0.7638718378418392,
+        "worst": -23.094440460205078,
+        "n_inject": 2177,
+        "inject_frac": 0.751207729468599,
+        "n_catastrophic(<-3)": 307
+      },
+      "risk_averse_best": {
+        "tau": 0.9,
+        "mean_gain": 0.06863820873679088,
+        "worst": 0.0,
+        "n_inject": 35,
+        "inject_frac": 0.012077294685990338,
+        "n_catastrophic(<-3)": 0
+      }
+    },
+    "cam[reg]": {
+      "n_feats": 2,
+      "roc_auc": 0.5898641545484825,
+      "best_net_gain": {
+        "tau": -0.13793103448275862,
+        "mean_gain": 0.7088839366846944,
+        "worst": -23.094440460205078,
+        "n_inject": 1857,
+        "inject_frac": 0.6407867494824017,
+        "n_catastrophic(<-3)": 264
+      },
+      "risk_averse_best": {
+        "tau": 3.0,
+        "mean_gain": 0.09493272102150611,
+        "worst": -0.5527629852294922,
+        "n_inject": 125,
+        "inject_frac": 0.04313319530710835,
+        "n_catastrophic(<-3)": 0
+      }
+    },
+    "cam+geo[cls]": {
+      "n_feats": 3,
+      "roc_auc": 0.5683623207336994,
+      "best_net_gain": {
+        "tau": 0.42500000000000004,
+        "mean_gain": 0.6309757151630025,
+        "worst": -23.094440460205078,
+        "n_inject": 2422,
+        "inject_frac": 0.8357487922705314,
+        "n_catastrophic(<-3)": 353
+      },
+      "risk_averse_best": null
+    },
+    "cam+geo[wcls]": {
+      "n_feats": 3,
+      "roc_auc": 0.6403749186002178,
+      "best_net_gain": {
+        "tau": 0.7250000000000001,
+        "mean_gain": 0.5894219923052317,
+        "worst": -9.390286684036255,
+        "n_inject": 835,
+        "inject_frac": 0.2881297446514838,
+        "n_catastrophic(<-3)": 52
+      },
+      "risk_averse_best": null
+    },
+    "cam+geo[reg]": {
+      "n_feats": 3,
+      "roc_auc": 0.6061894201250628,
+      "best_net_gain": {
+        "tau": -0.13793103448275862,
+        "mean_gain": 0.7038335029094939,
+        "worst": -23.094440460205078,
+        "n_inject": 1885,
+        "inject_frac": 0.650448585231194,
+        "n_catastrophic(<-3)": 310
+      },
+      "risk_averse_best": {
+        "tau": 2.7586206896551726,
+        "mean_gain": 0.08812946858613388,
+        "worst": -0.10614967346191406,
+        "n_inject": 46,
+        "inject_frac": 0.015873015873015872,
+        "n_catastrophic(<-3)": 0
+      }
+    },
+    "cam+geo+vggt[cls]": {
+      "n_feats": 10,
+      "roc_auc": 0.6471158568944831,
+      "best_net_gain": {
+        "tau": 0.5750000000000001,
+        "mean_gain": 0.6444396877223002,
+        "worst": -23.094440460205078,
+        "n_inject": 1389,
+        "inject_frac": 0.47929606625258797,
+        "n_catastrophic(<-3)": 209
+      },
+      "risk_averse_best": null
+    },
+    "cam+geo+vggt[wcls]": {
+      "n_feats": 10,
+      "roc_auc": 0.5767281215942837,
+      "best_net_gain": {
+        "tau": 0.7750000000000001,
+        "mean_gain": 0.5106753247453888,
+        "worst": -23.094440460205078,
+        "n_inject": 1176,
+        "inject_frac": 0.4057971014492754,
+        "n_catastrophic(<-3)": 175
+      },
+      "risk_averse_best": null
+    },
+    "cam+geo+vggt[reg]": {
+      "n_feats": 10,
+      "roc_auc": 0.5685177696146362,
+      "best_net_gain": {
+        "tau": 0.4655172413793104,
+        "mean_gain": 0.5030119233167607,
+        "worst": -23.094440460205078,
+        "n_inject": 1466,
+        "inject_frac": 0.5058661145617668,
+        "n_catastrophic(<-3)": 241
+      },
+      "risk_averse_best": null
+    }
+  }
+}

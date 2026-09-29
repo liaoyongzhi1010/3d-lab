@@ -1,0 +1,224 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+% =====================================================================
+% CVPR/ICCV submission template (draft-standalone preamble).
+% Swap for \usepackage[review]{cvpr} + the official cvpr.sty when packaging.
+% =====================================================================
+
+\usepackage[margin=0.9in]{geometry}
+% \usepackage{times}  % enable with official template (needs courier TFM)
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{caption}
+
+\graphicspath{{figs/}}
+\renewcommand{\ttdefault}{cmtt}   % draft-only monospace fallback
+
+\title{Gate-aware Disocclusion Prior Distillation for\\ Feed-Forward Single-View 3D Reconstruction}
+\author{Anonymous submission\\\small Paper ID ****}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Generative single-view reconstruction methods can improve disoccluded regions,
+but their inference cost is high --- a 30-step diffusion pass over a video clip
+takes minutes per scene. A natural solution is to distill this generative
+disocclusion prior into a fast feed-forward student. We make three findings.
+(1) \emph{Where to distill matters}: teacher outputs beat the feed-forward
+baseline only on hard disoccluded scenes, so a student must be trained where the
+teacher truly helps and gated at test time --- unconditional distillation
+damages easy scenes. (2) \emph{A feed-forward student recovers essentially all of
+the teacher's disocclusion quality}: trained on high-teacher-gain scenes, an
+image-level gate-aware student improves held-out invisible-region PSNR by
+\textbf{$+5.77$ dB} (the teacher gives $+6.09$ dB; the student trails by only
+0.10 dB) while leaving visible regions provably unchanged. (3) \emph{At a
+fraction of the cost}: the student runs in \textbf{0.087 s/scene on GPU versus
+247 s for the teacher --- a $2833\times$ speedup}. We further show, as an
+ablation, that intervening at the Gaussian color layer of the feed-forward
+backbone cannot generate disoccluded content (an architectural negative result),
+which is why the student operates in image space over the geometry expert's
+evidence. Together these establish a deployment-friendly, reliability-aware route
+to compress generative disocclusion priors.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+A generative reconstruction backbone guided by a feed-forward geometry expert
+improves disoccluded regions but is expensive, requiring a slow diffusion
+denoise. For deployment a feed-forward student is preferable. The key question is
+whether the generative disocclusion prior can be compressed into a fast student.
+
+A naive residual network mapping feed-forward renders to teacher renders is
+insufficient: the teacher beats the baseline on hard disocclusion scenes but is
+worse on easy scenes where the baseline already reconstructs the invisible
+region. Unconditional distillation transfers both good and bad teacher behavior.
+We therefore propose \emph{gate-aware disocclusion prior distillation}: the
+student correction is applied only when a router predicts the teacher/student is
+reliable. This distinguishes the work from test-time generative injection ---
+here we train a fast feed-forward student and router to approximate the teacher
+\emph{where useful}.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item A reliability-aware distillation formulation: train the student on scenes
+where the teacher helps and gate it at test time.
+\item An image-level gate-aware student that recovers $+5.77$ dB held-out
+invisible-region PSNR ($\approx$ the teacher's $+6.09$ dB) with a provable
+no-harm guarantee in visible regions, at a $2833\times$ speedup.
+\item An architectural negative result: a color-only Gaussian adapter cannot
+generate disoccluded content, motivating image-space correction over the
+geometry expert's evidence.
+\end{enumerate}
+
+\section{Method}
+\label{sec:method}
+\subsection{Teacher}
+The teacher is the slow selective-injection method: a generative backbone refined
+by geometry-expert-guided disocclusion injection. It provides high-quality
+disocclusion targets on hard scenes but is not universally better than the
+baseline.
+
+\subsection{Image-level gate-aware student}
+The student operates on rendered frames. Its input is
+\texttt{[f3d\_rgb, baseline\_rgb, visibility\_mask, invisible\_mask]}; a small
+convolutional network predicts a residual $r$ and outputs
+\[
+\text{student} = M\odot\text{baseline} + (1-M)\odot(\text{f3d}+r),
+\]
+so visible pixels ($M{=}1$) are copied from the baseline. Training uses
+invisible-region L1 losses to teacher and GT plus a visible-region identity loss.
+
+\subsection{Router / gate}
+The router decides whether to apply the correction. The strongest simple rule is
+\texttt{use student iff vis\_gap$>$0}, where
+\texttt{vis\_gap = expert\_visible $-$ baseline\_visible}, following the mechanism
+that relative visible quality predicts relative invisible quality. A learned
+logistic router over \texttt{[vis\_gap, f3d\_vis, base\_vis, vis\_frac]} is
+validated at scale in the companion reliability paper.
+
+\section{Experiments}
+\label{sec:exp}
+All PSNR numbers are \textbf{invisible-region} (disocclusion) PSNR, the targeted
+quantity; visible-region PSNR is a no-harm check.
+
+\subsection{Distillation succeeds on high-teacher-gain scenes}
+We train the image-level gate-aware student on scenes where the teacher clearly
+beats the baseline (teacher$-$baseline invisible gain $>3$ dB), using full
+per-frame teacher renders, with a 4-scene / 161-frame held-out split.
+
+\begin{table}[t]
+\centering\small
+\caption{Distillation results (invisible-region PSNR). The feed-forward student
+recovers essentially all of the teacher's disocclusion gain and leaves visible
+regions exactly unchanged.}
+\begin{tabular}{lrrrrr}
+\toprule
+Split & Base & Teacher & Student & Stud$-$Base & Vis $\Delta$ \\
+\midrule
+Train (n=696) & 15.31 & 20.68 & 20.80 & $\mathbf{+5.49}$ & $+0.000$ \\
+Holdout (n=161) & 14.04 & 20.13 & 19.81 & $\mathbf{+5.77}$ & $+0.000$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+The student recovers essentially all of the teacher's gain (holdout $+5.77$ dB
+vs teacher $+6.09$ dB; a 0.10 dB gap) with visible regions exactly unchanged.
+The gain is stable across held-out splits ($+5.96$ and $+4.75$ dB during
+scaling).
+
+\subsection{Where-to-distill matters}
+When the student is trained/evaluated on scenes where the teacher does \emph{not}
+beat the baseline, there is no signal to distill and the student is
+flat-to-slightly-negative --- not a failure of the method but of applying it
+where the generative prior is unneeded, exactly the case a reliability gate
+rejects. Relative visible quality predicts where the teacher helps
+(\texttt{vis\_gap$>$0}).
+
+\subsection{Runtime: $\sim$3000$\times$ faster than the teacher}
+\begin{table}[t]
+\centering\small
+\caption{Runtime and quality. The student is four $3\times3$ convolutions applied
+once per frame; the teacher requires a 30-step diffusion denoise of the clip.}
+\begin{tabular}{lrrr}
+\toprule
+Method & Time/scene & Inv $\Delta$ & Visible \\
+\midrule
+Teacher (30-step diffusion) & 247 s & $+6.09$ & lossless \\
+\textbf{Fast student (CNN)} & \textbf{0.087 s} & $\mathbf{+5.77}$ & lossless \\
+Speedup & $\mathbf{2833\times}$ & $\sim$95\% kept & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Standard Full-Image Metrics vs Published Method}
+\begin{table}[t]
+\centering\small
+\caption{Standard full-image metrics (759 frames, VGG-LPIPS). At the same
+feed-forward speed ($\sim$0.09\,s), the distilled student beats Flash3D on
+perceptual quality (LPIPS, FID) --- the standard comparison axis for generative
+NVS. Flash3D's high PSNR but worst FID reveals over-smoothing (blur).}
+\begin{tabular}{lrrrrr}
+\toprule
+Method & PSNR$\uparrow$ & LPIPS$\downarrow$ & FID$\downarrow$ & Time \\
+\midrule
+Gen3R (baseline) & 17.88 & .294 & 31.6 & 247\,s \\
+Flash3D (published) & \textbf{19.98} & .290 & 72.9 & 0.09\,s \\
+Teacher (slow) & 19.37 & \textbf{.258} & \textbf{31.3} & 247\,s \\
+\textbf{Student (ours)} & 18.17 & .284 & 33.6 & \textbf{0.087\,s} \\
+\bottomrule
+\end{tabular}
+\end{table}
+At equal feed-forward speed the student \emph{beats} Flash3D on LPIPS ($0.284$
+vs $0.290$) and FID ($33.6$ vs $72.9$): distilling the generative prior produces
+more perceptually realistic content than the geometry expert alone, at the same
+cost.
+
+\subsection{Ablation: why not intervene at the Gaussian layer?}
+A natural alternative edits the feed-forward backbone's Gaussian attributes
+directly. We tested a color-only Gaussian adapter that edits the geometry
+expert's \texttt{features\_dc} on the source plane and re-renders with geometry
+frozen. It cannot generate disoccluded content: even pure overfitting on a single
+scene reaches only $\sim$7\% of the teacher$-$baseline gap and does not
+generalize (holdout $-1.72$ dB). The reason is structural --- disoccluded target
+pixels correspond to Gaussians never observed in the source view, so source-plane
+recoloring has no leverage. This motivates operating in image space over the
+geometry expert's evidence.
+
+\section{Discussion}
+\label{sec:disc}
+Two results matter. Conceptually, \textbf{distillation of generative disocclusion
+priors must be reliability-aware}: the teacher is not uniformly better than the
+fast baseline, so the student must be trained where the teacher helps and gated
+where it does not. Practically, \textbf{once applied correctly a tiny
+feed-forward student recovers $\sim$95\% of the teacher's disocclusion gain at
+$\sim$3000$\times$ lower cost with zero visible-region change}. The Gaussian-color
+ablation explains the design choice.
+
+\section{Limitations}
+\label{sec:limits}
+Final numbers use a high-teacher-gain scene set with a held-out split; the router
+is rule-based here with a learned variant validated in the companion reliability
+paper. An optional stronger variant would predict residual disocclusion Gaussians
+(new points) rather than image-space residuals; this is future work, not required
+for the deployment claim.
+
+\section{Conclusion}
+\label{sec:concl}
+Instead of improving a generative backbone at test time, we distill its
+disocclusion prior into a fast feed-forward student. Trained where the teacher
+helps and gated at test time, the student recovers $+5.77$ dB of invisible-region
+PSNR (vs the teacher's $+6.09$ dB) while running $\sim$3000$\times$ faster and
+leaving visible regions untouched. A Gaussian-layer ablation shows why the
+correction is applied in image space. This is a deployment-friendly,
+reliability-aware route to compress generative disocclusion priors.
+
+{\small
+\bibliographystyle{plain}
+\bibliography{refs}
+}
+\end{document}
