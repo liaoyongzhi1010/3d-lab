@@ -15,6 +15,12 @@
 
 主线研究：基于生成先验引导的单视图场景级三维重建。
 
+<p align="center">
+  <a href="3d-reconstruction/README.md">
+    <img src="3d-reconstruction/assets/overview.jpeg" width="100%" alt="三维重建总体技术路线">
+  </a>
+</p>
+
 核心工作：
 - **测试时生成引导框架**：以 Flash3D 前馈重建为几何底座，引入 Difix（保真修复）、ViewCrafter（视频扩散外推）、FlashWorld（前馈 3D 生成）等生成先验，通过 test-time 优化 3DGS 改善大视角外推质量，零额外训练成本
 - **3D 循环一致性门控（CycleFusion）**：通过跨视角回投一致性估计逐像素可信度，区分「真几何」与「幻觉」，只在可信区域注入生成监督，抑制幻觉污染（AUROC 0.9227 vs 2D baseline 0.7144）
