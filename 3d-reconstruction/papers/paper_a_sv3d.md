@@ -1,8 +1,10 @@
 # Source-Anchored Test-Time Gaussian Completion for Single-Image Novel View Synthesis
 
-> All numbers are filled from our own registered runs (decision_log D027/D032/D033/D034/D035/D036/D037,
-> experiment_registry E014/E017/E018/E019/E020/E021/E022/E023). All results are from our own harness
-> over Flash3D on identical frames; oracles are labelled as upper bounds and never reported as our method.
+> **Evidence status: manuscript-only, pending artifact recovery.** This draft cites decision-log entries
+> D027/D032/D033/D034/D035/D036/D037 and experiment-registry rows E014/E017/E018/E019/E020/E021/E022/E023,
+> but the registry and corresponding result JSONs are absent from this checkout. Numeric claims below are
+> retained as historical manuscript claims and are not included in the project One-page result table until
+> their configs, outputs and manifests are restored.
 
 ## Abstract
 

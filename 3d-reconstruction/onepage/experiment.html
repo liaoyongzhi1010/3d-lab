@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'">
+  <title>实验记录 · 单视图三维重建</title>
+  <style>
+    :root { --ink:#1f2329; --muted:#646a73; --faint:#8f959e; --brand:#3370ff; --soft:#eef3ff; --line:#e5e6eb; --panel:#f7f8fa; --warn:#d46b08; --warn-soft:#fff7e8; --top:52px; --rail:252px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:72px; }
+    body { margin:0; color:var(--ink); background:#fff; font:15px/1.78 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; }
+    a { color:var(--brand); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .topbar { position:sticky; top:0; z-index:20; height:var(--top); display:flex; align-items:center; gap:10px; padding:0 24px; background:rgba(255,255,255,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .mark { display:grid; place-items:center; width:26px; height:26px; color:#fff; background:var(--brand); border-radius:7px; font-weight:750; }
+    .crumb { min-width:0; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .crumb a { color:var(--muted); }
+    .crumb strong { color:var(--ink); font-weight:600; }
+    .shell { display:grid; grid-template-columns:var(--rail) minmax(0,1fr); }
+    .sidebar { position:fixed; inset:var(--top) auto 0 0; width:var(--rail); padding:24px 16px 28px 20px; overflow-y:auto; border-right:1px solid var(--line); background:#fbfbfc; }
+    .nav-label { margin:0 8px 8px; color:var(--faint); font-size:12px; font-weight:650; letter-spacing:.06em; text-transform:uppercase; }
+    .sidebar a { display:block; margin:2px 0; padding:8px 9px; color:#4e5969; border-radius:6px; font-size:13px; line-height:1.4; }
+    .sidebar a:hover, .sidebar a.active { color:var(--brand); background:var(--soft); text-decoration:none; }
+    .sidebar a.pending { color:#8a5b1f; }
+    main { grid-column:2; min-width:0; }
+    article { width:min(920px,calc(100% - 64px)); margin:0 auto; padding:58px 0 96px; }
+    .state { padding:20px; color:var(--muted); border:1px solid var(--line); border-radius:9px; background:var(--panel); }
+    .state.error { color:#9f3a38; background:#fff1f0; border-color:#ffc9c5; }
+    h1 { margin:0 0 24px; font-size:clamp(32px,4.4vw,46px); line-height:1.2; letter-spacing:-.03em; }
+    h2 { margin:48px 0 16px; padding-bottom:9px; border-bottom:1px solid var(--line); font-size:25px; line-height:1.35; }
+    h3 { margin:30px 0 10px; font-size:19px; line-height:1.45; }
+    p { margin:12px 0; }
+    ul,ol { padding-left:1.5em; }
+    li+li { margin-top:6px; }
+    strong { font-weight:650; }
+    code { padding:2px 5px; background:#f2f3f5; border-radius:4px; font:.9em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    pre { margin:18px 0; padding:18px 20px; overflow:auto; color:#d9e1f2; background:#252b36; border-radius:8px; line-height:1.6; }
+    pre code { padding:0; color:inherit; background:none; }
+    blockquote { margin:18px 0; padding:12px 16px; color:var(--muted); border-left:4px solid var(--brand); background:var(--soft); }
+    .table-wrap { margin:18px 0; overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
+    table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+    th,td { padding:10px 13px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap; }
+    th { color:#4e5969; background:var(--panel); font-size:13px; }
+    tbody tr:last-child td { border-bottom:0; }
+    img { display:block; max-width:100%; height:auto; margin:20px auto; border:1px solid var(--line); border-radius:8px; }
+    hr { margin:36px 0; border:0; border-top:1px solid var(--line); }
+    .source { margin-top:56px; padding-top:18px; color:var(--faint); border-top:1px solid var(--line); font-size:13px; }
+    @media(max-width:900px) {
+      :root { --top:48px; }
+      .shell { display:block; }
+      .sidebar { position:sticky; top:var(--top); z-index:10; width:100%; height:48px; padding:7px 14px; overflow-x:auto; overflow-y:hidden; border-right:0; border-bottom:1px solid var(--line); white-space:nowrap; }
+      .nav-label { display:none; }
+      .sidebar nav { display:inline-flex; }
+      .sidebar a { display:inline-block; padding:6px 9px; }
+      main { width:100%; }
+      article { width:min(100% - 36px,920px); padding-top:42px; }
+    }
+    @media(max-width:640px) { .topbar{padding:0 14px}.crumb{font-size:13px}article{width:min(100% - 28px,920px);padding-bottom:64px}h1{font-size:32px}h2{font-size:23px} }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="mark" aria-hidden="true">3D</span>
+    <div class="crumb"><a href="index.html">研究总览</a>&nbsp; / &nbsp;实验记录&nbsp; / &nbsp;<strong id="crumb-title">加载中</strong></div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar" aria-label="实验记录导航">
+      <p class="nav-label">实验记录</p>
+      <nav id="record-nav">
+        <a data-doc="selective-injection.md" href="?doc=selective-injection.md">E-203 选择性注入</a>
+        <a data-doc="full-image-quality.md" href="?doc=full-image-quality.md">E-210 全图质量</a>
+        <a data-doc="tiny-student.md" href="?doc=tiny-student.md">E-211 TinyStudent</a>
+        <a data-doc="reliability-audit.md" href="?doc=reliability-audit.md">E-224 可靠性审计</a>
+        <a data-doc="acid-boundary.md" href="?doc=acid-boundary.md">E-215 ACID 边界</a>
+        <a class="pending" data-doc="cyclefusion-pending.md" href="?doc=cyclefusion-pending.md">CycleFusion 待恢复</a>
+      </nav>
+    </aside>
+    <main>
+      <article id="document" aria-live="polite"><div class="state">正在读取本地实验记录…</div></article>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const records = Object.freeze({
+        "selective-injection.md": "E-203 选择性几何注入",
+        "full-image-quality.md": "E-210 固定全图质量",
+        "tiny-student.md": "E-211 TinyStudent",
+        "reliability-audit.md": "E-224 可观测可靠性审计",
+        "acid-boundary.md": "E-215 ACID 跨域边界",
+        "cyclefusion-pending.md": "CycleFusion（待恢复）"
+      });
+      const params = new URLSearchParams(location.search);
+      const requested = params.get("doc") || "selective-injection.md";
+      const documentNode = document.getElementById("document");
+      const crumbTitle = document.getElementById("crumb-title");
+
+      const escapeHtml = value => value.replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+
+      const safeHref = raw => {
+        const value = raw.trim();
+        if (/^(?:https?:|data:|javascript:|file:|\/\/)/i.test(value)) return "#blocked-link";
+        try {
+          if (decodeURIComponent(value).includes("\\")) return "#blocked-link";
+        } catch (_) {
+          return "#blocked-link";
+        }
+        if (!value || value.startsWith("#")) return value || "#";
+        return `experiments/${value}`;
+      };
+
+      const inline = source => {
+        let value = escapeHtml(source);
+        const code = [];
+        value = value.replace(/`([^`]+)`/g, (_, text) => {
+          code.push(`<code>${text}</code>`);
+          return `\u0000CODE${code.length - 1}\u0000`;
+        });
+        value = value.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+["'][^"']*["'])?\)/g, (_, alt, href) => `<img src="${escapeHtml(safeHref(href))}" alt="${alt}" loading="lazy">`);
+        value = value.replace(/\[([^\]]+)\]\(([^\s)]+)(?:\s+["'][^"']*["'])?\)/g, (_, label, href) => `<a href="${escapeHtml(safeHref(href))}">${label}</a>`);
+        value = value.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        value = value.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+        value = value.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+        value = value.replace(/\u0000CODE(\d+)\u0000/g, (_, index) => code[Number(index)]);
+        return value;
+      };
+
+      const splitTableRow = line => line.trim().replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
+      const isDivider = line => /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+
+      function renderMarkdown(markdown) {
+        const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
+        const html = [];
+        let index = 0;
+        let paragraph = [];
+        let listType = "";
+
+        const flushParagraph = () => {
+          if (paragraph.length) html.push(`<p>${inline(paragraph.join(" "))}</p>`);
+          paragraph = [];
+        };
+        const closeList = () => {
+          if (listType) html.push(`</${listType}>`);
+          listType = "";
+        };
+        const flush = () => { flushParagraph(); closeList(); };
+
+        while (index < lines.length) {
+          const line = lines[index];
+          if (/^```/.test(line)) {
+            flush();
+            const language = line.slice(3).trim();
+            const code = [];
+            index += 1;
+            while (index < lines.length && !/^```/.test(lines[index])) code.push(lines[index++]);
+            html.push(`<pre><code${language ? ` data-language="${escapeHtml(language)}"` : ""}>${escapeHtml(code.join("\n"))}</code></pre>`);
+          } else if (/^#{1,6}\s+/.test(line)) {
+            flush();
+            const match = line.match(/^(#{1,6})\s+(.+)$/);
+            const level = Math.min(match[1].length, 3);
+            html.push(`<h${level}>${inline(match[2])}</h${level}>`);
+          } else if (line.includes("|") && index + 1 < lines.length && isDivider(lines[index + 1])) {
+            flush();
+            const headers = splitTableRow(line);
+            const rows = [];
+            index += 2;
+            while (index < lines.length && lines[index].includes("|") && lines[index].trim()) rows.push(splitTableRow(lines[index++]));
+            html.push(`<div class="table-wrap"><table><thead><tr>${headers.map(cell => `<th>${inline(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(cell => `<td>${inline(cell)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
+            continue;
+          } else if (/^\s*[-*+]\s+/.test(line) || /^\s*\d+[.)]\s+/.test(line)) {
+            flushParagraph();
+            const ordered = /^\s*\d+[.)]\s+/.test(line);
+            const nextType = ordered ? "ol" : "ul";
+            if (listType !== nextType) { closeList(); listType = nextType; html.push(`<${listType}>`); }
+            html.push(`<li>${inline(line.replace(ordered ? /^\s*\d+[.)]\s+/ : /^\s*[-*+]\s+/, ""))}</li>`);
+          } else if (/^>\s?/.test(line)) {
+            flush();
+            html.push(`<blockquote>${inline(line.replace(/^>\s?/, ""))}</blockquote>`);
+          } else if (/^\s*(?:---+|\*\*\*+)\s*$/.test(line)) {
+            flush(); html.push("<hr>");
+          } else if (!line.trim()) {
+            flush();
+          } else {
+            closeList(); paragraph.push(line.trim());
+          }
+          index += 1;
+        }
+        flush();
+        return html.join("\n");
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(records, requested)) {
+        crumbTitle.textContent = "无效记录";
+        document.title = "无效实验记录 · 单视图三维重建";
+        documentNode.innerHTML = '<div class="state error"><strong>无法打开该记录。</strong><br>仅允许读取左侧列出的六个本地 Markdown 文件。</div>';
+        return;
+      }
+
+      crumbTitle.textContent = records[requested];
+      document.title = `${records[requested]} · 单视图三维重建`;
+      document.querySelectorAll("[data-doc]").forEach(link => link.classList.toggle("active", link.dataset.doc === requested));
+
+      fetch(`experiments/${requested}`, { credentials: "same-origin", cache: "no-store" })
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then(markdown => {
+          documentNode.innerHTML = `${renderMarkdown(markdown)}<p class="source">本页由 <code>experiments/${escapeHtml(requested)}</code> 在浏览器中本地渲染。原始记录未被修改。</p>`;
+        })
+        .catch(error => {
+          documentNode.innerHTML = `<div class="state error"><strong>记录读取失败。</strong><br>请通过本地 HTTP 服务器打开页面；浏览器通常会阻止 <code>file://</code> 页面执行 fetch。<br><small>${escapeHtml(error.message)}</small></div>`;
+        });
+    })();
+  </script>
+</body>
+</html>

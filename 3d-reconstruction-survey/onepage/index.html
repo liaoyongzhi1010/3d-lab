@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="基于生成模型的稀疏视角三维重建综述研究计划。所有证据与结论均待系统检索和复核。">
+  <title>生成模型与稀疏视角三维重建综述</title>
+  <style>
+    :root {
+      --ink: #1f2329;
+      --muted: #646a73;
+      --subtle: #8f959e;
+      --line: #e5e6eb;
+      --soft: #f5f6f7;
+      --blue: #3370ff;
+      --blue-soft: #f0f4ff;
+      --amber: #d46b08;
+      --amber-soft: #fff7e8;
+      --green: #2b8a5f;
+      --paper: #fff;
+      --nav-width: 248px;
+      --header-height: 56px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 15px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(12px);
+    }
+    .topbar .mark {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--blue);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .crumbs { min-width: 0; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .crumbs strong { color: var(--ink); font-weight: 500; }
+    .slash { padding: 0 4px; color: #c2c5cc; }
+    .status-pill {
+      margin-left: auto;
+      flex: none;
+      padding: 3px 10px;
+      border: 1px solid #ffd591;
+      border-radius: 999px;
+      color: var(--amber);
+      background: var(--amber-soft);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: var(--header-height);
+      bottom: 0;
+      left: 0;
+      width: var(--nav-width);
+      padding: 28px 18px 36px 24px;
+      border-right: 1px solid var(--line);
+      background: #fbfbfc;
+      overflow-y: auto;
+    }
+    .sidebar-title { margin: 0 0 12px 10px; color: var(--subtle); font-size: 12px; font-weight: 600; letter-spacing: .08em; }
+    .sidebar a {
+      display: block;
+      margin: 2px 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .sidebar a:hover { color: var(--ink); background: #eef0f3; text-decoration: none; }
+    .sidebar .sub { padding-left: 24px; font-size: 12px; }
+    .sidebar-rule { margin: 18px 10px; border: 0; border-top: 1px solid var(--line); }
+    .sidebar .reader-link { color: var(--blue); }
+
+    .page { margin-left: var(--nav-width); }
+    .document { width: min(960px, calc(100% - 80px)); margin: 0 auto; padding: 68px 0 100px; }
+    .eyebrow { margin: 0 0 16px; color: var(--blue); font-size: 13px; font-weight: 650; letter-spacing: .05em; }
+    h1 { margin: 0; font-size: clamp(34px, 5vw, 48px); line-height: 1.22; letter-spacing: -.035em; }
+    .lead { max-width: 780px; margin: 22px 0 26px; color: var(--muted); font-size: 17px; line-height: 1.8; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 42px; color: var(--subtle); font-size: 13px; }
+
+    section { margin: 54px 0; }
+    h2 { margin: 0 0 20px; font-size: 28px; line-height: 1.35; letter-spacing: -.02em; }
+    h3 { margin: 28px 0 10px; font-size: 18px; line-height: 1.5; }
+    p { margin: 10px 0; }
+    ul, ol { margin: 12px 0; padding-left: 24px; }
+    li { margin: 6px 0; }
+    code { padding: 2px 5px; border-radius: 4px; background: var(--soft); font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    .callout {
+      margin: 24px 0;
+      padding: 16px 18px;
+      border: 1px solid #ffd591;
+      border-left: 4px solid #fa8c16;
+      border-radius: 8px;
+      background: var(--amber-soft);
+    }
+    .callout.info { border-color: #adc6ff; border-left-color: var(--blue); background: var(--blue-soft); }
+    .callout strong { display: block; margin-bottom: 4px; }
+    .callout p { margin: 0; color: #594214; }
+    .callout.info p { color: #314a7d; }
+
+    .diagram {
+      margin: 24px 0 10px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fbfbfc;
+      overflow-x: auto;
+    }
+    .diagram svg { display: block; width: 100%; min-width: 760px; height: auto; }
+    .figure-caption { margin: 10px 2px 0; color: var(--muted); font-size: 13px; }
+    .pending-tag { display: inline-block; padding: 2px 7px; border-radius: 4px; color: var(--amber); background: var(--amber-soft); font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+
+    table { width: 100%; margin: 18px 0; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 12px 14px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--soft); font-weight: 600; }
+    td.pending-cell { color: var(--amber); background: #fffdf8; }
+
+    .steps { counter-reset: step; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
+    .step { position: relative; min-height: 116px; padding: 18px 18px 18px 56px; border: 1px solid var(--line); border-radius: 9px; }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      display: grid;
+      place-items: center;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .step strong { display: block; margin-bottom: 5px; }
+    .step p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .doc-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 22px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--ink);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .doc-link:hover { border-color: #adc6ff; box-shadow: 0 4px 18px rgba(31, 35, 41, .06); text-decoration: none; }
+    .doc-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 8px; color: var(--blue); background: var(--blue-soft); font-weight: 700; }
+    .doc-link strong { display: block; }
+    .doc-link span { color: var(--muted); font-size: 13px; }
+    .doc-arrow { margin-left: auto; color: var(--subtle); }
+    footer { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 13px; }
+
+    @media (max-width: 860px) {
+      :root { --header-height: 52px; }
+      .topbar { padding: 0 16px; }
+      .sidebar { position: static; width: auto; padding: 10px 16px; border-right: 0; border-bottom: 1px solid var(--line); white-space: nowrap; overflow-x: auto; }
+      .sidebar-title, .sidebar-rule { display: none; }
+      .sidebar a { display: inline-block; margin-right: 2px; }
+      .sidebar .sub { padding-left: 10px; }
+      .page { margin-left: 0; }
+      .document { width: min(100% - 36px, 760px); padding-top: 42px; }
+      .steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .status-pill { display: none; }
+      .document { width: calc(100% - 32px); padding-top: 34px; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 24px; }
+      .lead { font-size: 16px; }
+      section { margin: 44px 0; }
+      .diagram { margin-inline: -8px; padding: 14px; }
+      th, td { padding: 10px; }
+      .table-wrap { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="mark" aria-hidden="true">3D</span>
+    <div class="crumbs">研究空间 <span class="slash">/</span> 综述 <span class="slash">/</span> <strong>生成模型与稀疏视角三维重建</strong></div>
+    <span class="status-pill">证据待建立</span>
+  </header>
+
+  <nav class="sidebar" aria-label="文档目录">
+    <p class="sidebar-title">本文目录</p>
+    <a href="#overview">1. 研究总览</a>
+    <a href="#scope">2. 范围与边界</a>
+    <a href="#workflow">3. 系统综述流程</a>
+    <a class="sub" href="#workflow-diagram">流程图</a>
+    <a href="#taxonomy">4. 分类与证据矩阵</a>
+    <a class="sub" href="#matrix-diagram">矩阵图</a>
+    <a href="#protocol">5. 评测与核验</a>
+    <a href="#results">6. 结果与结论</a>
+    <a href="#next">7. 下一步</a>
+    <hr class="sidebar-rule">
+    <a class="reader-link" href="experiment.html?doc=README.md">实验记录阅读器 ↗</a>
+  </nav>
+
+  <div class="page">
+    <main class="document">
+      <p class="eyebrow">SPARSE-VIEW GENERATIVE 3D RECONSTRUCTION · SYSTEMATIC REVIEW PLAN</p>
+      <h1>基于生成模型的<br>稀疏视角三维重建</h1>
+      <p class="lead">一个面向可追溯证据的综述工作区。本页只描述计划中的检索、编码、分类与核验框架，不代表已完成的文献综述。</p>
+      <div class="meta">
+        <span>状态：研究设计阶段</span>
+        <span>证据条目：0（待建立）</span>
+        <span>结论：全部待复核</span>
+      </div>
+
+      <div class="callout" role="note">
+        <strong>证据声明</strong>
+        <p>项目当前尚无可核查的文献库、筛选记录或实验结果。下方所有分类、表格和图示均为计划结构，不包含论文数量、性能趋势或方法优劣结论。</p>
+      </div>
+
+      <section id="overview">
+        <h2>1. 研究总览</h2>
+        <p>研究目标是系统梳理生成模型在稀疏视角三维重建中的作用方式，并建立可回溯至原始论文、官方代码与评测协议的结构化证据。计划关注输入条件、重建对象、三维表示、生成先验介入位置以及评测可比性。</p>
+        <div class="callout info">
+          <strong>当前可发布内容</strong>
+          <p>仅限研究问题、流程设计与待填模板。任何趋势描述、定量比较和代表性方法清单都将在检索、筛选和双重核验完成后生成。</p>
+        </div>
+      </section>
+
+      <section id="scope">
+        <h2>2. 范围与边界</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>维度</th><th>计划记录</th><th>当前状态</th></tr></thead>
+            <tbody>
+              <tr><td>输入条件</td><td>视角数量、相机信息、图像条件及辅助信号</td><td class="pending-cell">待定义与检索</td></tr>
+              <tr><td>重建对象</td><td>物体、场景及其他任务边界</td><td class="pending-cell">待定义与检索</td></tr>
+              <tr><td>生成机制</td><td>先验类型及其在训练或推理中的作用位置</td><td class="pending-cell">待证据编码</td></tr>
+              <tr><td>三维表示</td><td>显式、隐式及混合表示</td><td class="pending-cell">待证据编码</td></tr>
+              <tr><td>评测协议</td><td>数据划分、分辨率、视角设置、指标实现与版本</td><td class="pending-cell">待逐项核验</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><span class="pending-tag">PENDING</span> “稀疏视角”的操作性定义、检索时间窗和纳入/排除标准尚未冻结。</p>
+      </section>
+
+      <section id="workflow">
+        <h2>3. 系统综述流程</h2>
+        <p>计划采用可重复的证据链：先冻结协议，再执行检索和去重，随后由人工筛选、编码并回查原始材料。只有通过质量门槛的记录才进入综合。</p>
+        <figure class="diagram" id="workflow-diagram">
+          <svg viewBox="0 0 920 330" role="img" aria-labelledby="workflow-title workflow-desc">
+            <title id="workflow-title">计划中的系统综述工作流</title>
+            <desc id="workflow-desc">从协议冻结到检索、筛选、证据编码、质量核验，最后进入证据综合；所有节点均处于待执行状态。</desc>
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8f959e"/></marker>
+              <style>
+                .wf-box{fill:#fff;stroke:#dfe1e6;stroke-width:1.5}.wf-num{fill:#3370ff}.wf-title{font:600 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2329}.wf-copy{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#646a73}.wf-small{font:600 10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#d46b08;letter-spacing:1px}.wf-line{fill:none;stroke:#8f959e;stroke-width:1.6;marker-end:url(#arrow)}
+              </style>
+            </defs>
+            <path class="wf-line" d="M165 91H204"/><path class="wf-line" d="M345 91H384"/><path class="wf-line" d="M525 91H564"/><path class="wf-line" d="M705 91H744"/>
+            <path class="wf-line" d="M815 136V194H705"/><path class="wf-line" d="M565 244H526"/><path class="wf-line" d="M385 244H346"/>
+            <g transform="translate(25 45)"><rect class="wf-box" width="140" height="92" rx="10"/><circle class="wf-num" cx="22" cy="22" r="11"/><text x="22" y="26" text-anchor="middle" fill="#fff" font-size="11">1</text><text class="wf-title" x="18" y="51">协议冻结</text><text class="wf-copy" x="18" y="71">问题 · 范围 · 标准</text><text class="wf-small" x="88" y="20">待执行</text></g>
+            <g transform="translate(205 45)"><rect class="wf-box" width="140" height="92" rx="10"/><circle class="wf-num" cx="22" cy="22" r="11"/><text x="22" y="26" text-anchor="middle" fill="#fff" font-size="11">2</text><text class="wf-title" x="18" y="51">系统检索</text><text class="wf-copy" x="18" y="71">检索式 · 日期 · 来源</text><text class="wf-small" x="88" y="20">待执行</text></g>
+            <g transform="translate(385 45)"><rect class="wf-box" width="140" height="92" rx="10"/><circle class="wf-num" cx="22" cy="22" r="11"/><text x="22" y="26" text-anchor="middle" fill="#fff" font-size="11">3</text><text class="wf-title" x="18" y="51">去重与筛选</text><text class="wf-copy" x="18" y="71">题录 · 全文 · 理由</text><text class="wf-small" x="88" y="20">待执行</text></g>
+            <g transform="translate(565 45)"><rect class="wf-box" width="140" height="92" rx="10"/><circle class="wf-num" cx="22" cy="22" r="11"/><text x="22" y="26" text-anchor="middle" fill="#fff" font-size="11">4</text><text class="wf-title" x="18" y="51">证据编码</text><text class="wf-copy" x="18" y="71">方法 · 数据 · 协议</text><text class="wf-small" x="88" y="20">待执行</text></g>
+            <g transform="translate(745 45)"><rect class="wf-box" width="140" height="92" rx="10"/><circle class="wf-num" cx="22" cy="22" r="11"/><text x="22" y="26" text-anchor="middle" fill="#fff" font-size="11">5</text><text class="wf-title" x="18" y="51">质量核验</text><text class="wf-copy" x="18" y="71">原表 · 代码 · 版本</text><text class="wf-small" x="88" y="20">待执行</text></g>
+            <g transform="translate(565 198)"><rect x="0" y="0" width="320" height="92" rx="10" fill="#fff7e8" stroke="#ffd591" stroke-width="1.5"/><text class="wf-title" x="20" y="34">证据门槛</text><text class="wf-copy" x="20" y="56">不可比协议隔离 · 缺失信息保留为空</text><text class="wf-copy" x="20" y="75">争议条目回到原始材料复核</text></g>
+            <g transform="translate(205 198)"><rect x="0" y="0" width="140" height="92" rx="10" fill="#f0f4ff" stroke="#adc6ff" stroke-width="1.5"/><text class="wf-title" x="18" y="38">证据综合</text><text class="wf-copy" x="18" y="59">表格 · 图示 · 结论</text><text class="wf-small" x="76" y="20">待证据</text></g>
+            <text class="wf-copy" x="25" y="318">每一步保留输入、决策、版本与排除理由，形成可审计链路。</text>
+          </svg>
+          <figcaption class="figure-caption">图 1. 计划中的系统综述工作流。该图是流程设计，不表示已有文献进入任一阶段。</figcaption>
+        </figure>
+      </section>
+
+      <section id="taxonomy">
+        <h2>4. 计划分类与证据矩阵</h2>
+        <p>分类框架将由证据迭代，而不是预先填入方法名称。每条纳入记录计划同时映射到输入条件、生成机制、三维表示和评测协议，并保留出处定位。</p>
+        <figure class="diagram" id="matrix-diagram">
+          <svg viewBox="0 0 920 430" role="img" aria-labelledby="matrix-title matrix-desc">
+            <title id="matrix-title">计划中的分类与证据矩阵</title>
+            <desc id="matrix-desc">左侧是四个计划分类维度，右侧是从原始来源到可比证据和结论的分层矩阵，全部内容待证据填充。</desc>
+            <defs>
+              <marker id="matrix-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8f959e"/></marker>
+              <style>
+                .mx-title{font:600 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f2329}.mx-copy{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#646a73}.mx-label{font:600 11px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#3370ff;letter-spacing:.7px}.mx-cell{fill:#fff;stroke:#dfe1e6}.mx-dash{fill:#fbfbfc;stroke:#c9cdd4;stroke-dasharray:5 4}.mx-line{stroke:#8f959e;stroke-width:1.5;fill:none;marker-end:url(#matrix-arrow)}
+              </style>
+            </defs>
+            <text class="mx-label" x="28" y="28">计划分类轴</text>
+            <g transform="translate(28 48)"><rect width="280" height="66" rx="9" fill="#f0f4ff" stroke="#adc6ff"/><text class="mx-title" x="18" y="27">输入条件</text><text class="mx-copy" x="18" y="48">视角数 · 相机条件 · 辅助信号（待定义）</text></g>
+            <g transform="translate(28 128)"><rect width="280" height="66" rx="9" fill="#f4f9f6" stroke="#b7dfca"/><text class="mx-title" x="18" y="27">生成机制</text><text class="mx-copy" x="18" y="48">先验类型 · 作用位置（待编码）</text></g>
+            <g transform="translate(28 208)"><rect width="280" height="66" rx="9" fill="#f9f5ff" stroke="#d3b5f5"/><text class="mx-title" x="18" y="27">三维表示</text><text class="mx-copy" x="18" y="48">显式 · 隐式 · 混合（待编码）</text></g>
+            <g transform="translate(28 288)"><rect width="280" height="66" rx="9" fill="#fff7e8" stroke="#ffd591"/><text class="mx-title" x="18" y="27">评测协议</text><text class="mx-copy" x="18" y="48">数据 · 分辨率 · 指标实现（待核验）</text></g>
+            <path class="mx-line" d="M308 81H373V112H407"/><path class="mx-line" d="M308 161H373V172H407"/><path class="mx-line" d="M308 241H373V232H407"/><path class="mx-line" d="M308 321H373V292H407"/>
+            <text class="mx-label" x="407" y="28">证据层级</text>
+            <g transform="translate(407 48)"><rect class="mx-cell" width="184" height="306" rx="10"/><text class="mx-title" x="18" y="32">单篇记录</text><line x1="18" y1="48" x2="166" y2="48" stroke="#e5e6eb"/><text class="mx-copy" x="18" y="76">来源与版本</text><rect class="mx-dash" x="18" y="88" width="148" height="35" rx="5"/><text class="mx-copy" x="92" y="110" text-anchor="middle">待填出处定位</text><text class="mx-copy" x="18" y="149">任务与方法编码</text><rect class="mx-dash" x="18" y="161" width="148" height="35" rx="5"/><text class="mx-copy" x="92" y="183" text-anchor="middle">待填结构化字段</text><text class="mx-copy" x="18" y="222">指标与协议</text><rect class="mx-dash" x="18" y="234" width="148" height="35" rx="5"/><text class="mx-copy" x="92" y="256" text-anchor="middle">待填原表数据</text><text x="18" y="291" font-size="11" font-weight="600" fill="#d46b08">当前记录数：0</text></g>
+            <path class="mx-line" d="M591 201H625"/>
+            <g transform="translate(626 48)"><rect class="mx-cell" width="266" height="137" rx="10"/><text class="mx-title" x="18" y="31">可比证据组</text><text class="mx-copy" x="18" y="58">仅聚合协议一致或差异已明确标注的记录。</text><rect class="mx-dash" x="18" y="78" width="230" height="38" rx="5"/><text class="mx-copy" x="133" y="102" text-anchor="middle">待建立分组与可比性说明</text></g>
+            <g transform="translate(626 217)"><rect width="266" height="137" rx="10" fill="#fff7e8" stroke="#ffd591"/><text class="mx-title" x="18" y="31">综述输出</text><text class="mx-copy" x="18" y="58">分类、表格、图示、发现与局限。</text><rect x="18" y="78" width="230" height="38" rx="5" fill="#fff" stroke="#ffd591" stroke-dasharray="5 4"/><text x="133" y="102" text-anchor="middle" font-size="12" fill="#d46b08">全部待证据支持</text></g>
+            <path class="mx-line" d="M759 185V216"/>
+            <text class="mx-copy" x="28" y="402">矩阵原则：空缺保持为空；不可比不强行排序；每个结论必须能反向定位到证据记录。</text>
+          </svg>
+          <figcaption class="figure-caption">图 2. 计划中的 taxonomy / evidence matrix。分类轴是待验证的编码框架，未包含任何具体文献或观察结果。</figcaption>
+        </figure>
+      </section>
+
+      <section id="protocol">
+        <h2>5. 评测与核验</h2>
+        <div class="steps">
+          <div class="step"><strong>来源回查</strong><p>关键字段回到论文正文、附录、官方项目与版本记录，避免依赖二手摘要。</p></div>
+          <div class="step"><strong>协议对齐</strong><p>视角数、数据划分、分辨率、裁剪方式和指标实现不同的结果不直接比较。</p></div>
+          <div class="step"><strong>交叉复核</strong><p>计划对纳入、排除与证据编码执行抽样或双人复核，并记录分歧处理。</p></div>
+          <div class="step"><strong>结论追溯</strong><p>每个发布结论必须链接到 evidence table 的具体记录和原始出处。</p></div>
+        </div>
+        <p><span class="pending-tag">PENDING</span> 复核比例、质量评分规则与最终报告模板尚待协议冻结。</p>
+      </section>
+
+      <section id="results">
+        <h2>6. 结果与结论</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>输出</th><th>状态</th><th>发布条件</th></tr></thead>
+            <tbody>
+              <tr><td>纳入文献及筛选流图</td><td class="pending-cell">待检索</td><td>检索与筛选记录完整</td></tr>
+              <tr><td>方法分类与分布</td><td class="pending-cell">待编码</td><td>taxonomy 经证据迭代并复核</td></tr>
+              <tr><td>指标与性能比较</td><td class="pending-cell">待核验</td><td>评测协议可比且来源定位完整</td></tr>
+              <tr><td>核心发现与研究缺口</td><td class="pending-cell">待综合</td><td>可回溯至经过质量门槛的证据</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>当前结论：待证据</strong>
+          <p>目前不能对方法规模、发展趋势、性能水平、代表性工作或研究空白作出可靠判断。</p>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2>7. 下一步</h2>
+        <ol>
+          <li>冻结研究问题、“稀疏视角”定义与纳入边界。</li>
+          <li>记录数据库、检索式、检索日期和版本。</li>
+          <li>建立去重、筛选及排除理由记录。</li>
+          <li>逐篇构建可追溯 evidence table，并执行质量复核。</li>
+          <li>仅在证据成熟后生成统计图、比较表和综述结论。</li>
+        </ol>
+        <a class="doc-link" href="experiment.html?doc=README.md">
+          <span class="doc-icon" aria-hidden="true">MD</span>
+          <span><strong>打开实验与检索记录</strong><span>experiments/README.md · 本地安全阅读器</span></span>
+          <span class="doc-arrow" aria-hidden="true">→</span>
+        </a>
+      </section>
+
+      <footer>本页面未引用或生成任何具体文献、统计结果或性能结论。所有证据性内容均明确标记为待建立、待编码或待核验。</footer>
+    </main>
+  </div>
+</body>
+</html>

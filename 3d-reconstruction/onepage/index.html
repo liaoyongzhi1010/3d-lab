@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>生成先验引导的单视图三维重建</title>
+  <meta name="description" content="单视图场景级三维重建的可追溯、证据优先研究总览。">
+  <style>
+    :root {
+      --ink: #1f2329;
+      --muted: #646a73;
+      --faint: #8f959e;
+      --brand: #3370ff;
+      --brand-soft: #eef3ff;
+      --line: #e5e6eb;
+      --panel: #f7f8fa;
+      --warn: #d46b08;
+      --warn-soft: #fff7e8;
+      --risk: #c9353f;
+      --risk-soft: #fff1f0;
+      --ok: #2b8a66;
+      --ok-soft: #edf8f3;
+      --top: 52px;
+      --rail: 252px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body { margin: 0; color: var(--ink); background: #fff; font: 15px/1.78 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .topbar { position: sticky; top: 0; z-index: 20; height: var(--top); display: flex; align-items: center; gap: 10px; padding: 0 24px; background: rgba(255,255,255,.94); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .mark { display: grid; place-items: center; width: 26px; height: 26px; color: #fff; background: var(--brand); border-radius: 7px; font-weight: 750; }
+    .crumb { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .crumb strong { color: var(--ink); font-weight: 600; }
+    .shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); }
+    .sidebar { position: fixed; inset: var(--top) auto 0 0; width: var(--rail); padding: 24px 16px 28px 20px; overflow-y: auto; border-right: 1px solid var(--line); background: #fbfbfc; }
+    .nav-label { margin: 0 8px 8px; color: var(--faint); font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; }
+    .sidebar nav + .nav-label { margin-top: 24px; }
+    .sidebar a { display: block; margin: 2px 0; padding: 6px 9px; color: #4e5969; border-radius: 6px; font-size: 13px; line-height: 1.45; }
+    .sidebar a:hover { color: var(--brand); background: var(--brand-soft); text-decoration: none; }
+    .sidebar .pending { color: #8a5b1f; }
+    .content { grid-column: 2; min-width: 0; }
+    article { width: min(960px, calc(100% - 64px)); margin: 0 auto; padding: 64px 0 96px; }
+    .eyebrow { margin: 0 0 14px; color: var(--brand); font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    h1 { margin: 0; max-width: 850px; font-size: clamp(34px, 4.8vw, 54px); line-height: 1.14; letter-spacing: -.035em; }
+    .lead { margin: 22px 0 0; max-width: 820px; color: var(--muted); font-size: 18px; line-height: 1.8; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; color: var(--faint); font-size: 13px; }
+    section { padding-top: 58px; }
+    h2 { margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: 28px; line-height: 1.3; letter-spacing: -.02em; }
+    h3 { margin: 34px 0 12px; font-size: 20px; line-height: 1.45; }
+    p { margin: 12px 0; }
+    strong { font-weight: 650; }
+    code { padding: 2px 5px; background: #f2f3f5; border-radius: 4px; font: .9em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    pre { margin: 18px 0; padding: 18px 20px; overflow: auto; color: #d9e1f2; background: #252b36; border-radius: 8px; line-height: 1.6; }
+    pre code { padding: 0; color: inherit; background: none; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 28px 0; }
+    .metric { padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 8px rgba(31,35,41,.04); }
+    .metric b { display: block; color: var(--brand); font-size: 27px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .metric span { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; }
+    .callout { margin: 22px 0; padding: 16px 18px; border: 1px solid #cddaff; border-left: 4px solid var(--brand); border-radius: 6px; background: var(--brand-soft); }
+    .callout.warning { border-color: #f5d7aa; border-left-color: var(--warn); background: var(--warn-soft); }
+    .callout.risk { border-color: #ffc9c5; border-left-color: var(--risk); background: var(--risk-soft); }
+    .callout strong:first-child { display: inline-block; margin-right: 4px; }
+    .diagram { margin: 26px 0; padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(180deg, #fbfcff, #fff); overflow: hidden; }
+    .diagram svg { display: block; width: 100%; height: auto; }
+    .diagram figcaption { margin-top: 12px; color: var(--muted); font-size: 13px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }
+    .card { padding: 18px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
+    .card h3 { margin: 0 0 8px; font-size: 17px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .table-wrap { margin: 18px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: 11px 14px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+    th { color: #4e5969; background: var(--panel); font-size: 13px; font-weight: 650; }
+    th:first-child, td:first-child { text-align: left; }
+    tbody tr:last-child td { border-bottom: 0; }
+    figure.real { margin: 28px 0; }
+    figure.real img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
+    figcaption { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .record-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+    .record { display: block; position: relative; padding: 17px 42px 17px 18px; color: var(--ink); border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+    .record:hover { border-color: #b7c8ff; background: var(--brand-soft); text-decoration: none; }
+    .record b { display: block; margin-bottom: 3px; }
+    .record span { color: var(--muted); font-size: 13px; }
+    .record::after { content: "›"; position: absolute; top: 50%; right: 17px; color: var(--faint); font-size: 24px; transform: translateY(-52%); }
+    .record.pending { border-style: dashed; }
+    ul, ol { padding-left: 1.45em; }
+    li + li { margin-top: 7px; }
+    .footer { margin-top: 64px; padding-top: 22px; color: var(--faint); border-top: 1px solid var(--line); font-size: 13px; }
+    @media (max-width: 900px) {
+      :root { --top: 48px; }
+      .shell { display: block; }
+      .sidebar { position: sticky; top: var(--top); z-index: 10; width: 100%; height: 44px; padding: 6px 14px; overflow-x: auto; overflow-y: hidden; border-right: 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+      .sidebar .nav-label { display: none; }
+      .sidebar nav { display: inline-flex; }
+      .sidebar nav + nav { margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--line); }
+      .sidebar a { display: inline-block; padding: 5px 8px; }
+      .content { width: 100%; }
+      article { width: min(100% - 36px, 960px); padding-top: 42px; }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: 0 14px; }
+      article { width: min(100% - 28px, 960px); padding-bottom: 64px; }
+      h1 { font-size: 34px; }
+      .lead { font-size: 16px; }
+      section { padding-top: 44px; }
+      h2 { font-size: 24px; }
+      .metrics, .cards, .record-grid { grid-template-columns: 1fr; }
+      .metric { padding: 16px; }
+      .diagram { padding: 8px; margin-inline: -4px; overflow-x: auto; }
+      .diagram svg { min-width: 680px; }
+      th, td { padding: 9px 11px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="mark" aria-hidden="true">3D</span>
+    <div class="crumb">研究空间&nbsp; / &nbsp;<strong>生成先验引导的单视图三维重建</strong></div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="文档导航">
+      <p class="nav-label">本文目录</p>
+      <nav>
+        <a href="#overview">1. 研究总览</a>
+        <a href="#data">2. 数据与协议</a>
+        <a href="#method">3. 研究路径</a>
+        <a href="#tests">4. 验证方式</a>
+        <a href="#results">5. 证据结果</a>
+        <a href="#failures">6. 失败与边界</a>
+        <a href="#next">7. 下一步</a>
+      </nav>
+      <p class="nav-label">实验记录</p>
+      <nav>
+        <a href="experiment.html?doc=selective-injection.md">E-203 选择性注入</a>
+        <a href="experiment.html?doc=full-image-quality.md">E-210 全图质量</a>
+        <a href="experiment.html?doc=tiny-student.md">E-211 TinyStudent</a>
+        <a href="experiment.html?doc=reliability-audit.md">E-224 可靠性审计</a>
+        <a href="experiment.html?doc=acid-boundary.md">E-215 ACID 边界</a>
+        <a class="pending" href="experiment.html?doc=cyclefusion-pending.md">CycleFusion 待恢复</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <article>
+        <header>
+          <p class="eyebrow">Evidence-first research document</p>
+          <h1>生成先验引导的<br>单视图场景级三维重建</h1>
+          <p class="lead">从单张 RGB 和相机信息生成可渲染场景表示，并把“生成先验何时有效、能否压缩、能否安全调用”拆成可独立核查的诊断、蒸馏和可靠性审计。</p>
+          <div class="meta"><span>证据来源：当前仓库 JSON / manifest / 模型卡 / 协议文档</span><span>状态：研究中</span><span>页面：静态、无外部依赖</span></div>
+        </header>
+
+        <section id="overview">
+          <h2>1. 研究总览</h2>
+          <p><strong>研究目标。</strong> 改善单视图重建在反遮挡区域的表现，同时避免把生成模型的合理幻觉包装成已恢复的真实几何。这里报告的是机制证据、压缩结果与失败边界，而不是一个已经解决安全选择问题的部署系统。</p>
+          <div class="metrics">
+            <div class="metric"><b>166 scenes</b><span>选择性注入机制分析</span></div>
+            <div class="metric"><b>759 frames</b><span>固定全图质量诊断</span></div>
+            <div class="metric"><b>2,898 frames</b><span>可观测可靠性审计</span></div>
+          </div>
+          <div class="callout warning"><strong>证据边界。</strong> Paper 1/2 使用完整目标 clip 生成的 oracle visibility，Paper 2 还使用 teacher/GT outcome 筛选。它们是机制和上界研究，不是已部署的单图系统。</div>
+
+          <figure class="diagram" aria-labelledby="pipeline-caption">
+            <svg viewBox="0 0 900 330" role="img" aria-labelledby="pipeline-title pipeline-desc">
+              <title id="pipeline-title">研究管线：诊断、蒸馏与可靠性审计</title>
+              <desc id="pipeline-desc">从单图和相机输入开始，依次进行选择性机制诊断、教师行为蒸馏和可观测特征可靠性审计，最后回到证据受限的结论。</desc>
+              <defs>
+                <linearGradient id="pipe-bg" x1="0" x2="1"><stop stop-color="#f5f8ff"/><stop offset="1" stop-color="#f8fbfa"/></linearGradient>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8aa7eb"/></marker>
+              </defs>
+              <rect x="1" y="1" width="898" height="328" rx="18" fill="url(#pipe-bg)" stroke="#e1e8f7"/>
+              <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+                <text x="42" y="42" font-size="13" font-weight="700" fill="#646a73" letter-spacing="1.5">RESEARCH PIPELINE</text>
+                <path d="M195 166 H267" stroke="#8aa7eb" stroke-width="3" marker-end="url(#arrow)"/>
+                <path d="M443 166 H515" stroke="#8aa7eb" stroke-width="3" marker-end="url(#arrow)"/>
+                <path d="M691 166 H763" stroke="#8aa7eb" stroke-width="3" marker-end="url(#arrow)"/>
+                <g transform="translate(34 90)">
+                  <rect width="162" height="152" rx="14" fill="#fff" stroke="#cfd9ee"/>
+                  <circle cx="34" cy="34" r="17" fill="#e9efff"/><path d="M26 34h16M34 26v16" stroke="#3370ff" stroke-width="2"/>
+                  <text x="20" y="79" font-size="17" font-weight="700" fill="#1f2329">输入与问题</text>
+                  <text x="20" y="105" font-size="13" fill="#646a73">单张 RGB · 相机</text>
+                  <text x="20" y="127" font-size="13" fill="#646a73">反遮挡区域不确定</text>
+                </g>
+                <g transform="translate(282 90)">
+                  <rect width="162" height="152" rx="14" fill="#fff" stroke="#b8c9ff"/>
+                  <circle cx="34" cy="34" r="17" fill="#e9efff"/><path d="M25 39l7-8 6 5 9-12" fill="none" stroke="#3370ff" stroke-width="2.2"/>
+                  <text x="20" y="79" font-size="17" font-weight="700" fill="#1f2329">① 机制诊断</text>
+                  <text x="20" y="105" font-size="13" fill="#646a73">何时注入有收益？</text>
+                  <text x="20" y="127" font-size="13" fill="#c06a10">oracle / GT probe</text>
+                </g>
+                <g transform="translate(530 90)">
+                  <rect width="162" height="152" rx="14" fill="#fff" stroke="#b8c9ff"/>
+                  <circle cx="34" cy="34" r="17" fill="#e9efff"/><path d="M25 28h18v12H25zM29 44h10" fill="none" stroke="#3370ff" stroke-width="2"/>
+                  <text x="20" y="79" font-size="17" font-weight="700" fill="#1f2329">② 先验蒸馏</text>
+                  <text x="20" y="105" font-size="13" fill="#646a73">慢 teacher → student</text>
+                  <text x="20" y="127" font-size="13" fill="#c06a10">oracle-curated</text>
+                </g>
+                <g transform="translate(778 90)">
+                  <rect width="88" height="152" rx="14" fill="#fff" stroke="#9fd4c0"/>
+                  <circle cx="44" cy="34" r="17" fill="#e6f6ef"/><path d="M36 34l6 6 11-13" fill="none" stroke="#2b8a66" stroke-width="2.2"/>
+                  <text x="44" y="79" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2329">③ 审计</text>
+                  <text x="44" y="105" text-anchor="middle" font-size="12" fill="#646a73">可观测</text>
+                  <text x="44" y="124" text-anchor="middle" font-size="12" fill="#646a73">特征</text>
+                </g>
+                <path d="M822 255 C822 292 364 307 364 252" fill="none" stroke="#d0a15f" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+                <text x="594" y="296" text-anchor="middle" font-size="12" fill="#8a5b1f">审计暴露失败，再约束下一轮机制假设</text>
+              </g>
+            </svg>
+            <figcaption id="pipeline-caption">研究闭环不是单向“提升指标”：诊断给出上界，蒸馏测试压缩可能性，可靠性审计检查这些能力能否在推理时安全调用。</figcaption>
+          </figure>
+        </section>
+
+        <section id="data">
+          <h2>2. 数据与协议</h2>
+          <p>主要数据是 RealEstate10K；ACID 仅有 8-scene / 215-frame 的已归档跨域机制诊断。官方 MINE、两视图 pixelSplat 协议、长序列 oracle 诊断和 ACID 转换轨迹严格分开。</p>
+          <p>场景与帧 population 由 <a href="../data/results/github_release/manifests/re10k_scene_manifest.json">166-scene manifest</a> 和 <a href="../data/results/github_release/manifests/frame_reliability_manifest.json">2,898-frame manifest</a> 固定。数据获取和外部存储规则见 <a href="../data/README.md">data/README.md</a>。</p>
+          <div class="callout"><strong>比较规则。</strong> 对外比较必须同时对齐 split、context views、分辨率、crop、目标帧和 LPIPS-VGG。不同协议的数字不合并为一个排行榜。</div>
+
+          <figure class="diagram" aria-labelledby="tiers-caption">
+            <svg viewBox="0 0 900 390" role="img" aria-labelledby="tiers-title tiers-desc">
+              <title id="tiers-title">证据层级和协议边界</title>
+              <desc id="tiers-desc">证据分为可观测部署证据、离线机制证据和待恢复线索。协议边界禁止跨设置直接排名。</desc>
+              <defs>
+                <marker id="boundary-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#d46b08"/></marker>
+              </defs>
+              <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+                <rect x="1" y="1" width="898" height="388" rx="18" fill="#fcfcfd" stroke="#e5e6eb"/>
+                <text x="38" y="42" font-size="13" font-weight="700" fill="#646a73" letter-spacing="1.5">EVIDENCE TIERS</text>
+                <g transform="translate(38 72)">
+                  <rect width="448" height="76" rx="10" fill="#edf8f3" stroke="#9fd4c0"/>
+                  <rect width="8" height="76" rx="4" fill="#2b8a66"/>
+                  <text x="28" y="30" font-size="16" font-weight="700" fill="#1f2329">Tier 1 · 推理时可观测</text>
+                  <text x="28" y="54" font-size="13" fill="#53615b">相机平移 / 旋转；E-224 的部署相关负结论</text>
+                </g>
+                <g transform="translate(38 160)">
+                  <rect width="448" height="76" rx="10" fill="#eef3ff" stroke="#b8c9ff"/>
+                  <rect width="8" height="76" rx="4" fill="#3370ff"/>
+                  <text x="28" y="30" font-size="16" font-weight="700" fill="#1f2329">Tier 2 · 离线 oracle 诊断</text>
+                  <text x="28" y="54" font-size="13" fill="#59657d">完整目标 clip / GT probe；支持机制，不支持部署</text>
+                </g>
+                <g transform="translate(38 248)">
+                  <rect width="448" height="76" rx="10" fill="#fff7e8" stroke="#f5d7aa" stroke-dasharray="6 4"/>
+                  <rect width="8" height="76" rx="4" fill="#d46b08"/>
+                  <text x="28" y="30" font-size="16" font-weight="700" fill="#1f2329">Tier 3 · 待恢复线索</text>
+                  <text x="28" y="54" font-size="13" fill="#7a603d">CycleFusion / Paper A 缺原始产物，不进入主结果</text>
+                </g>
+                <path d="M544 72V324" stroke="#d46b08" stroke-width="2" stroke-dasharray="6 5"/>
+                <text x="566" y="94" font-size="13" font-weight="700" fill="#d46b08">协议边界</text>
+                <text x="566" y="129" font-size="14" fill="#1f2329">Split</text><text x="690" y="129" font-size="13" fill="#646a73">不可混合</text>
+                <text x="566" y="166" font-size="14" fill="#1f2329">Context views</text><text x="690" y="166" font-size="13" fill="#646a73">1-view ≠ 2-view</text>
+                <text x="566" y="203" font-size="14" fill="#1f2329">Resolution / crop</text><text x="690" y="203" font-size="13" fill="#646a73">必须对齐</text>
+                <text x="566" y="240" font-size="14" fill="#1f2329">Target frames</text><text x="690" y="240" font-size="13" fill="#646a73">必须固定</text>
+                <text x="566" y="277" font-size="14" fill="#1f2329">LPIPS backbone</text><text x="690" y="277" font-size="13" fill="#646a73">本页为 VGG</text>
+                <path d="M566 302H822" stroke="#d46b08" stroke-width="2" marker-end="url(#boundary-arrow)"/>
+                <text x="566" y="330" font-size="13" fill="#8a5b1f">越界数字只能并列说明，不能直接排名</text>
+              </g>
+            </svg>
+            <figcaption id="tiers-caption">证据等级决定结论强度。更高 AUC 若依赖 GT-derived probe，并不会自动升级成可部署 selector。</figcaption>
+          </figure>
+        </section>
+
+        <section id="method">
+          <h2>3. 研究路径</h2>
+          <div class="cards">
+            <div class="card"><h3>选择性注入</h3><p>诊断几何 evidence 在哪些困难场景改善生成结果，并保留 easy 场景被破坏的反例。</p></div>
+            <div class="card"><h3>先验蒸馏</h3><p>在模型卡声明的 oracle-curated 条件下，把慢速 teacher 的图像残差行为压缩到 46,371 参数 TinyStudent。</p></div>
+            <div class="card"><h3>可靠性审计</h3><p>区分 GT-derived diagnostic 与真正可观测相机特征，检查 selector 是否保留严重失败。</p></div>
+          </div>
+          <figure class="real">
+            <img src="../data/results/github_release/assets/paper1_pipeline.png" alt="选择性几何注入的 oracle visibility 诊断流程" loading="lazy">
+            <figcaption>Paper 1 真实流程图。Visibility 来自完整目标序列，因此必须读作 oracle diagnostic。</figcaption>
+          </figure>
+          <div class="callout warning"><strong>CycleFusion：待恢复。</strong> 演进方向另行记录，但原始 E838/E841/E856/E861/E863 产物未在本 checkout 恢复。<a href="experiment.html?doc=cyclefusion-pending.md">查看待恢复记录</a>。</div>
+        </section>
+
+        <section id="tests">
+          <h2>4. 验证方式</h2>
+          <ul>
+            <li>release smoke 校验 13 份 headline JSON、两个 manifest、README 链接、CFF 和 TinyStudent SHA256/前向。</li>
+            <li>Paper 1 测试上游根目录错误处理；Paper 2 测试 checkpoint 与 claim integrity；Paper 3 测试 grouped folds 和证据边界。</li>
+            <li>workspace 测试检查五项目录、实验记录、页面链接和关键证据文件。</li>
+          </ul>
+          <pre><code>cd 3d-reconstruction/data/results/github_release
+python3 scripts/smoke_test.py
+python3 scripts/test_workspace_layout.py</code></pre>
+          <p>完整复现说明：<a href="../data/results/github_release/REPRODUCIBILITY.md">REPRODUCIBILITY.md</a>。</p>
+        </section>
+
+        <section id="results">
+          <h2>5. 当前有证据支持的结果</h2>
+          <h3>选择性与难度依赖</h3>
+          <div class="table-wrap"><table><thead><tr><th>分组</th><th>n</th><th>平均变化</th></tr></thead><tbody><tr><td>Hard</td><td>66</td><td>+2.486 dB</td></tr><tr><td>Mid</td><td>81</td><td>+0.108 dB</td></tr><tr><td>Easy</td><td>19</td><td>-2.517 dB</td></tr></tbody></table></div>
+          <p>组件质量差与收益相关性 <code>r=0.9817</code>，但该信号依赖 GT probe。<a href="experiment.html?doc=selective-injection.md">阅读 E-203 完整记录</a>。</p>
+          <figure class="real"><img src="../data/results/github_release/assets/paper1_success_boxed.png" alt="同一场景和视角下 GT、生成基线、注入结果及误差的成功案例" loading="lazy"><figcaption>真实成功案例。对应失败案例必须同时查看。</figcaption></figure>
+          <figure class="real"><img src="../data/results/github_release/assets/paper1_failure_boxed.png" alt="同一场景和视角下 GT、生成基线、注入结果及误差的失败案例" loading="lazy"><figcaption>真实失败案例：生成注入并不总是改善结果。</figcaption></figure>
+
+          <h3>固定全图诊断</h3>
+          <div class="table-wrap"><table><thead><tr><th>方法</th><th>PSNR ↑</th><th>LPIPS-VGG ↓</th><th>FID ↓</th></tr></thead><tbody><tr><td>Gen3R</td><td>17.768</td><td>0.360</td><td>31.774</td></tr><tr><td>Injected</td><td>19.224</td><td>0.341</td><td>31.143</td></tr><tr><td>Flash3D evidence</td><td>19.761</td><td>0.444</td><td>54.841</td></tr></tbody></table></div>
+          <p>这是 21 scenes / 759 frames 的自定义诊断，不是官方 MINE 排名。<a href="experiment.html?doc=full-image-quality.md">阅读 E-210 完整记录</a>。</p>
+
+          <h3>蒸馏、可靠性与跨域边界</h3>
+          <div class="metrics">
+            <div class="metric"><b>0.087 s</b><span>TinyStudent / scene；teacher 为 247 s。质量未完全追平 teacher。</span></div>
+            <div class="metric"><b>AUC 0.650</b><span>Camera-only observable audit；worst routed gain 为 -23.094 dB。</span></div>
+            <div class="metric"><b>-0.443 dB</b><span>ACID 8-scene 机制平均变化，3/8 scenes 提升。</span></div>
+          </div>
+          <figure class="real"><img src="../data/results/github_release/assets/paper2_quality_speed.png" alt="TinyStudent 与 teacher 的质量速度关系" loading="lazy"><figcaption>固定 759-frame 诊断中的真实质量—速度关系。</figcaption></figure>
+
+          <h3>逐实验记录</h3>
+          <p>以下六个入口统一通过本地 reader 打开；原始 Markdown 保持不变。</p>
+          <div class="record-grid">
+            <a class="record" href="experiment.html?doc=selective-injection.md"><b>E-203 · 选择性几何注入</b><span>166 scenes · oracle diagnostic</span></a>
+            <a class="record" href="experiment.html?doc=full-image-quality.md"><b>E-210 · 固定全图质量</b><span>21 scenes · 759 frames</span></a>
+            <a class="record" href="experiment.html?doc=tiny-student.md"><b>E-211 · TinyStudent</b><span>质量—速度与复现边界</span></a>
+            <a class="record" href="experiment.html?doc=reliability-audit.md"><b>E-224 · 可观测可靠性</b><span>2,898 frames · camera-only</span></a>
+            <a class="record" href="experiment.html?doc=acid-boundary.md"><b>E-215 · ACID 跨域边界</b><span>8 scenes · 负结果</span></a>
+            <a class="record pending" href="experiment.html?doc=cyclefusion-pending.md"><b>CycleFusion · 原始产物待恢复</b><span>不进入可复现主结果</span></a>
+          </div>
+        </section>
+
+        <section id="failures">
+          <h2>6. 已知失败与不可主张内容</h2>
+          <ul>
+            <li>Easy scenes 的 always-inject 平均为负；ACID 8-scene 平均也为负。</li>
+            <li>GT-derived AUC 0.947 不能当作可部署 selector；camera-only 仍保留 -23.094 dB 最坏损失。</li>
+            <li>TinyStudent 精确重训缺少 holdout 和 frame-label manifest。</li>
+            <li>Paper A 草稿报告的结果缺少本地 registry/JSON，已排除，不进入主表。</li>
+            <li>CycleFusion 只有设计和汇总日志，原始结果和五列定性素材待恢复。</li>
+          </ul>
+          <div class="callout risk"><strong>明确不主张。</strong> 本页不声称恢复不可见区域真实几何，不声称 CycleFusion 显著超过 Difix-only，也不把不同协议数字直接比较。</div>
+        </section>
+
+        <section id="next">
+          <h2>7. 下一步</h2>
+          <ol>
+            <li>恢复 CycleFusion E838/E841/E856/E861/E863 原始 JSON、配置、代码 commit 和真实面板。</li>
+            <li>为 Paper A 恢复 experiment registry 和 held-out 原始结果。</li>
+            <li>补齐上游模型 commit/checkpoint hash、随机种子和数据校验值。</li>
+            <li>用真正单图可观测证据重新研究安全 selector。</li>
+            <li>新实验统一写入独立记录，不再只保存在长日志或服务器目录。</li>
+          </ol>
+          <p><a href="../code/README.md">代码入口</a> · <a href="../papers/README.md">论文入口</a> · <a href="../data/results/github_release/README.md">完整发布包</a></p>
+        </section>
+
+        <footer class="footer">静态研究文档。主结果来自当前仓库证据；缺失证据明确标记为待恢复。</footer>
+      </article>
+    </main>
+  </div>
+</body>
+</html>

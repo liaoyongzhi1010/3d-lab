@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>实验记录阅读器</title>
+  <style>
+    :root { --ink:#1f2329; --muted:#646a73; --line:#e5e6eb; --soft:#f5f6f7; --blue:#3370ff; --amber:#d46b08; --amber-soft:#fff7e8; --header:56px; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 78px; }
+    body { margin:0; color:var(--ink); background:#fff; font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; -webkit-font-smoothing:antialiased; }
+    a { color:var(--blue); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .topbar { position:sticky; top:0; z-index:10; height:var(--header); display:flex; align-items:center; gap:10px; padding:0 24px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.95); backdrop-filter:blur(12px); }
+    .back { display:grid; place-items:center; width:30px; height:30px; border-radius:6px; color:var(--ink); font-size:20px; }
+    .back:hover { background:var(--soft); text-decoration:none; }
+    .crumbs { min-width:0; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .crumbs strong { color:var(--ink); font-weight:500; }
+    .slash { padding:0 5px; color:#c2c5cc; }
+    .local { margin-left:auto; padding:3px 9px; border-radius:5px; color:#2b8a5f; background:#edf8f2; font-size:12px; font-weight:600; }
+    main { width:min(920px,calc(100% - 48px)); margin:0 auto; padding:58px 0 90px; }
+    .file-meta { display:flex; align-items:center; gap:12px; margin-bottom:34px; padding-bottom:18px; border-bottom:1px solid var(--line); color:var(--muted); font-size:13px; }
+    .file-icon { display:grid; place-items:center; width:34px; height:34px; border-radius:7px; color:var(--blue); background:#f0f4ff; font-size:11px; font-weight:700; }
+    #filename { color:var(--ink); font-weight:600; }
+    .state { padding:20px; border:1px solid var(--line); border-radius:9px; color:var(--muted); background:#fbfbfc; }
+    .state.error { border-color:#ffd591; color:#874d00; background:var(--amber-soft); }
+    article { overflow-wrap:anywhere; }
+    article h1 { margin:0 0 24px; font-size:38px; line-height:1.3; letter-spacing:-.025em; }
+    article h2 { margin:46px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--line); font-size:26px; line-height:1.4; }
+    article h3 { margin:32px 0 12px; font-size:20px; }
+    article h4 { margin:26px 0 10px; font-size:17px; }
+    article p { margin:12px 0; }
+    article ul, article ol { margin:12px 0; padding-left:25px; }
+    article li { margin:6px 0; }
+    article blockquote { margin:20px 0; padding:10px 16px; border-left:4px solid #adc6ff; color:#415a8b; background:#f0f4ff; }
+    article blockquote p { margin:0; }
+    article code { padding:2px 5px; border-radius:4px; background:var(--soft); font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    article pre { margin:20px 0; padding:17px 19px; border:1px solid var(--line); border-radius:8px; background:#f7f8fa; overflow:auto; }
+    article pre code { padding:0; background:transparent; white-space:pre; }
+    .table-wrap { margin:20px 0; overflow-x:auto; }
+    article table { width:100%; border-collapse:collapse; font-size:14px; }
+    article th, article td { padding:11px 13px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+    article th { background:var(--soft); font-weight:600; }
+    article hr { margin:34px 0; border:0; border-top:1px solid var(--line); }
+    .notice { margin:34px 0 0; padding:14px 16px; border-left:4px solid #fa8c16; border-radius:7px; color:#6b4b14; background:var(--amber-soft); font-size:13px; }
+    @media(max-width:600px) { .topbar{padding:0 12px}.local{display:none}main{width:calc(100% - 32px);padding-top:36px}article h1{font-size:31px}article h2{font-size:23px}.file-meta{margin-bottom:26px} }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="index.html" aria-label="返回综述">‹</a>
+    <div class="crumbs">综述 <span class="slash">/</span> 实验记录 <span class="slash">/</span> <strong id="breadcrumb-file">README.md</strong></div>
+    <span class="local">本地 Markdown</span>
+  </header>
+  <main>
+    <div class="file-meta">
+      <span class="file-icon" aria-hidden="true">MD</span>
+      <span><span id="filename">README.md</span><br><span>来源：<code>experiments/</code></span></span>
+    </div>
+    <div id="state" class="state" role="status">正在读取本地文档…</div>
+    <article id="content" hidden></article>
+    <div class="notice">安全说明：阅读器仅允许加载 <code>experiments/</code> 下的单个 Markdown 文件名；源文本在渲染前转义，不执行其中的 HTML 或脚本。</div>
+  </main>
+  <script>
+    (() => {
+      "use strict";
+
+      const params = new URLSearchParams(location.search);
+      const requested = params.get("doc") || "README.md";
+      const state = document.getElementById("state");
+      const content = document.getElementById("content");
+      const filename = document.getElementById("filename");
+      const breadcrumb = document.getElementById("breadcrumb-file");
+      const safeName = /^[A-Za-z0-9][A-Za-z0-9._-]*\.md$/i;
+
+      function showError(message) {
+        state.className = "state error";
+        state.textContent = message;
+        content.hidden = true;
+      }
+
+      function escapeHtml(value) {
+        return value.replace(/[&<>"']/g, character => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+        })[character]);
+      }
+
+      function safeUrl(raw) {
+        const decoded = raw.replace(/&amp;/g, "&").trim();
+        if (/^(https?:|mailto:)/i.test(decoded)) return escapeHtml(decoded);
+        if (/^(#|\.\/|\.\.\/|[A-Za-z0-9_./-]+(?:\?[^\s]*)?)$/.test(decoded) && !decoded.includes("\\")) return escapeHtml(decoded);
+        return "#";
+      }
+
+      function inline(text) {
+        let value = escapeHtml(text);
+        const code = [];
+        value = value.replace(/`([^`]+)`/g, (_, body) => {
+          code.push(`<code>${body}</code>`);
+          return `\u0000CODE${code.length - 1}\u0000`;
+        });
+        value = value.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+&quot;[^&]*&quot;)?\)/g, (_, alt, url) => `<a href="${safeUrl(url)}">[图片：${alt || "未命名"}]</a>`);
+        value = value.replace(/\[([^\]]+)\]\(([^\s)]+)(?:\s+&quot;[^&]*&quot;)?\)/g, (_, label, url) => `<a href="${safeUrl(url)}"${/^https?:/i.test(url) ? " target=\"_blank\" rel=\"noopener noreferrer\"" : ""}>${label}</a>`);
+        value = value.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        value = value.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+        value = value.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+        value = value.replace(/(^|[^_])_([^_\n]+)_/g, "$1<em>$2</em>");
+        return value.replace(/\u0000CODE(\d+)\u0000/g, (_, index) => code[Number(index)]);
+      }
+
+      function splitRow(line) {
+        let row = line.trim();
+        if (row.startsWith("|")) row = row.slice(1);
+        if (row.endsWith("|")) row = row.slice(0, -1);
+        return row.split(/(?<!\\)\|/).map(cell => cell.trim().replace(/\\\|/g, "|"));
+      }
+
+      function isDivider(line) {
+        return splitRow(line).every(cell => /^:?-{3,}:?$/.test(cell));
+      }
+
+      function renderMarkdown(source) {
+        const lines = source.replace(/\r\n?/g, "\n").split("\n");
+        const html = [];
+        let paragraph = [];
+        let listType = "";
+        let inCode = false;
+        let code = [];
+        let quote = [];
+
+        const flushParagraph = () => {
+          if (paragraph.length) html.push(`<p>${inline(paragraph.join(" "))}</p>`);
+          paragraph = [];
+        };
+        const closeList = () => {
+          if (listType) html.push(`</${listType}>`);
+          listType = "";
+        };
+        const flushQuote = () => {
+          if (quote.length) html.push(`<blockquote><p>${inline(quote.join(" "))}</p></blockquote>`);
+          quote = [];
+        };
+
+        for (let index = 0; index < lines.length; index += 1) {
+          const line = lines[index];
+          const fence = line.match(/^\s*```([\w-]*)\s*$/);
+          if (fence) {
+            flushParagraph(); closeList(); flushQuote();
+            if (inCode) {
+              html.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+              code = [];
+            }
+            inCode = !inCode;
+            continue;
+          }
+          if (inCode) { code.push(line); continue; }
+          if (!line.trim()) { flushParagraph(); closeList(); flushQuote(); continue; }
+
+          const heading = line.match(/^(#{1,4})\s+(.+)$/);
+          if (heading) {
+            flushParagraph(); closeList(); flushQuote();
+            const level = heading[1].length;
+            html.push(`<h${level}>${inline(heading[2])}</h${level}>`);
+            continue;
+          }
+          if (/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+            flushParagraph(); closeList(); flushQuote(); html.push("<hr>"); continue;
+          }
+          if (line.includes("|") && lines[index + 1] && isDivider(lines[index + 1])) {
+            flushParagraph(); closeList(); flushQuote();
+            const headers = splitRow(line);
+            const rows = [];
+            index += 2;
+            while (index < lines.length && lines[index].includes("|") && lines[index].trim()) {
+              rows.push(splitRow(lines[index]));
+              index += 1;
+            }
+            index -= 1;
+            html.push(`<div class="table-wrap"><table><thead><tr>${headers.map(cell => `<th>${inline(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map(row => `<tr>${headers.map((_, cellIndex) => `<td>${inline(row[cellIndex] || "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
+            continue;
+          }
+          const list = line.match(/^\s*(?:([-+*])|(\d+)\.)\s+(.+)$/);
+          if (list) {
+            flushParagraph(); flushQuote();
+            const nextType = list[2] ? "ol" : "ul";
+            if (listType && listType !== nextType) closeList();
+            if (!listType) { listType = nextType; html.push(`<${listType}>`); }
+            html.push(`<li>${inline(list[3])}</li>`);
+            continue;
+          }
+          if (/^\s*>\s?/.test(line)) {
+            flushParagraph(); closeList();
+            quote.push(line.replace(/^\s*>\s?/, ""));
+            continue;
+          }
+          closeList(); flushQuote(); paragraph.push(line.trim());
+        }
+        flushParagraph(); closeList(); flushQuote();
+        if (inCode && code.length) html.push(`<pre><code>${escapeHtml(code.join("\n"))}</code></pre>`);
+        return html.join("\n");
+      }
+
+      if (!safeName.test(requested) || requested === "." || requested === "..") {
+        showError("无法打开文档：doc 参数必须是 experiments/ 下的单个 .md 文件名。");
+        return;
+      }
+
+      filename.textContent = requested;
+      breadcrumb.textContent = requested;
+      document.title = `${requested} · 实验记录`;
+
+      fetch(`experiments/${encodeURIComponent(requested)}`, { credentials: "same-origin" })
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then(markdown => {
+          content.innerHTML = renderMarkdown(markdown);
+          content.hidden = false;
+          state.hidden = true;
+        })
+        .catch(error => {
+          const localHint = location.protocol === "file:" ? " 请通过本地 HTTP 服务打开页面，因为浏览器通常会阻止 file:// 页面读取相邻文件。" : "";
+          showError(`无法读取 experiments/${requested}（${error.message}）。${localHint}`);
+        });
+    })();
+  </script>
+</body>
+</html>
